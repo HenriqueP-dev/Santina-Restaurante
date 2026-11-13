@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BarraLigar from '../components/BarraLigar.astro';
+import { hotel, comodidades, textos, seo } from '../conteudo/ativo';
+
+interface Props { title?: string; description?: string; temReserva?: boolean }
+const {
+  title = `${hotel.nome} · Hospedagem em ${hotel.cidade}, ${hotel.uf}`,
+  description = seo.descricao,
+  temReserva = true,
+} = Astro.props;
+
+// Dados estruturados (Schema.org): só fatos do documento do hotel. Sem nota de avaliação,
+// porque o Google não aceita avaliações autodeclaradas em dados estruturados.
+const dados = {
+  '@context': 'https://schema.org', '@type': 'Hotel', name: hotel.nome,
+  address: { '@type': 'PostalAddress', streetAddress: hotel.endereco, addressLocality: hotel.cidade, addressRegion: hotel.uf, postalCode: hotel.cep, addressCountry: 'BR' },
+  telephone: hotel.telefoneIntl, checkinTime: hotel.checkInHora, checkoutTime: hotel.checkOutHora,
+  ...(hotel.estrelas ? { starRating: { '@type': 'Rating', ratingValue: hotel.estrelas } } : {}),
+  amenityFeature: comodidades.map((c) => ({ '@type': 'LocationFeatureSpecification', name: c, value: true })),
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    {!seo.indexar && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="application/ld+json" set:html={JSON.stringify(dados)} />
+    <!-- Movimento só quando permitido. Se o script de animação não carregar em 2,5 s, o conteúdo aparece mesmo assim. -->
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var r = document.documentElement; r.classList.add('mov');
+        setTimeout(function () { if (!r.classList.contains('mov-ok')) r.classList.remove('mov'); }, 2500);
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    {textos.aviso && <aside class="aviso" aria-label="Aviso do projeto">{textos.aviso}</aside>}
+    <Header temReserva={temReserva} />
+    <main id="conteudo"><slot /></main>
+    <Footer />
+    <BarraLigar />
+    <script>import '../scripts/movimento';</script>
+  </body>
+</html>
+<style is:global>
+  .aviso { padding: .55rem var(--gutter); background: var(--champ); color: var(--marrom); font-size: .8rem; line-height: 1.3; text-align: center; }
+</style>

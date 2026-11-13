@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import ReservaForm from '../../components/ReservaForm.astro';
+import { hotel, textos } from '../../conteudo/ativo';
+---
+<Base title={`Contato · ${hotel.nome}`} description={textos.contato.descricao}>
+  <section class="section" aria-labelledby="h-c">
+    <div class="container topo">
+      <h1 id="h-c">Contato</h1>
+      <dl class="dados">
+        <div><dt>Telefone</dt><dd><a class="tel num" href={hotel.telefoneLink}>{hotel.telefone}</a></dd></div>
+        <div><dt>Endereço</dt><dd><address>{hotel.enderecoCompleto}</address><a class="link-ouro" href={hotel.mapaLink} target="_blank" rel="noopener">{textos.localizacao.botaoMapa}</a></dd></div>
+        <div><dt>Horários</dt><dd>Check-in {hotel.checkIn}. Check-out {hotel.checkOut}.</dd></div>
+      </dl>
+    </div>
+  </section>
+  <section class="section sec--champ" aria-labelledby="h-r">
+    <div class="container reserva"><h2 id="h-r">{textos.contato.reserva}</h2><ReservaForm /></div>
+  </section>
+</Base>
+<style>
+  .topo { display: grid; gap: 3rem; align-items: end; }
+  @media (min-width: 62rem) { .topo { grid-template-columns: 1fr 1fr; gap: 7rem; } }
+  .dados { display: grid; border-top: 1px solid var(--grafite); }
+  .dados div { display: grid; gap: .4rem; padding: 1.4rem 0; border-bottom: 1px solid var(--areia); }
+  .dados dt { font-size: .7rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--marrom); }
+  .dados dd { font-size: 1.0625rem; } .dados address { font-style: normal; }
+  .tel { font: 400 clamp(2rem, 1.4rem + 2.4vw, 3.2rem)/1.1 var(--f-titulo); text-decoration: none; }
+  .reserva { display: grid; gap: 2.5rem; }
+</style>
