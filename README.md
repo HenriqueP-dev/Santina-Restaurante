@@ -1,20 +1,28 @@
 # Santina Restaurante (site em desenvolvimento)
 
-Projeto iniciado a partir do modelo de sites de hospedagem (o mesmo do projeto Hotel Winner).
-Passo a passo do modelo: [`COMO-CRIAR-NOVO-SITE.md`](COMO-CRIAR-NOVO-SITE.md).
+Site institucional do Santina Restaurante, Barretos (SP). **Projeto conceitual**, sem vínculo oficial até o restaurante confirmar os dados.
+Astro estático, CSS próprio e GSAP.
 
-## Estado atual
+## Documentos
+- [`PRODUCT.md`](PRODUCT.md): quem é o restaurante, o que o site precisa fazer, o que não pode inventar.
+- [`DESIGN.md`](DESIGN.md): análise da logo, paleta com contraste, tipografia, componentes e movimento.
+- [`PENDENCIAS.md`](PENDENCIAS.md): o que ainda precisa de confirmação.
+- [`CREDITOS.md`](CREDITOS.md): origem de imagens e fontes.
 
-- O código ainda é o **modelo de hotel/pousada**, com o conteúdo em branco (`src/conteudo/novo.ts`). Só o nome do cliente foi preenchido.
-- **Falta confirmar qual restaurante Santina é** (cidade, telefone, endereço, horários) e receber cardápio e fotos. Nada foi inventado.
-- Um restaurante não tem quartos e comodidades: as seções precisam ser adaptadas (cardápio, horário de funcionamento, reserva de mesa). Isso ainda não foi feito.
+## Estrutura
+- Conteúdo (dados, cardápio, textos): `src/conteudo/santina.ts` (formato em `tipos.ts`).
+- Cores e fontes: `src/styles/tema.css`. Estrutura e componentes de estilo: `src/styles/global.css`.
+- Páginas: `src/pages/index.astro` (home) e `src/pages/cardapio/index.astro`.
+- Fotos: cada `Quadro.astro` é um espaço reservado. Para pôr a foto: `<Quadro foto="/fotos/arquivo.webp" alt="..." rotulo="..." />` (arquivos em `public/fotos/`).
 
 ## Rodar
-
 ```bash
 npm install
-npm run build
-npm run test:e2e
+npm run dev          # desenvolvimento
+npm run build        # gera o site em dist/
+npm run test:e2e     # testes: responsividade, acessibilidade (axe), cardápio, reserva
 ```
+Primeira vez no computador: `npx playwright install chromium`.
 
-Cores e fontes: `src/styles/tema.css`. Conteúdo: `src/conteudo/novo.ts`.
+## Reservas
+O formulário monta a mensagem e abre `https://wa.me/5517996701204`. O número fica em `src/conteudo/santina.ts` (`whatsapp`).

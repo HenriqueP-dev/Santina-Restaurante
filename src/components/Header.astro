@@ -1,29 +1,26 @@
 ---
 import Logo from './Logo.astro';
-import { hotel, secoes } from '../conteudo/ativo';
-interface Props { temReserva?: boolean }
-const { temReserva = true } = Astro.props;
-// Em páginas sem formulário (ex.: 404) o botão leva ao formulário da home.
-const alvoReserva = temReserva ? '#reserva' : '/#reserva';
-const esq = [{ href: '/acomodacoes/', t: 'Acomodações' }, ...(secoes.pontosTuristicos ? [{ href: '/pontos-turisticos/', t: 'Pontos turísticos' }] : [])];
-const dir = [{ href: '/#localizacao', t: 'Localização' }, { href: '/contato/', t: 'Contato' }];
-const extra = [{ href: '/#comodidades', t: 'Comodidades' }];
+import { negocio } from '../conteudo/ativo';
+// Atalhos sempre a partir da raiz: funcionam na home e nas outras páginas.
+const esq = [{ href: '/#historia', t: 'Nossa história' }, { href: '/cardapio/', t: 'Cardápio' }];
+const dir = [{ href: '/#reservas', t: 'Reservas' }, { href: '/#local', t: 'Localização' }];
+const reservar = '/#reservas';
 ---
-<header class="hd" data-hd>
+<header class="hd sec--escura" data-hd>
   <div class="hd__in">
     <nav class="hd__l tracado" aria-label="Principal">{esq.map((l) => <a class="hd__a" href={l.href}>{l.t}</a>)}</nav>
-    <a href="/" class="hd__logo"><Logo /></a>
+    <a href="/" class="hd__logo" aria-label={`${negocio.nome}, início`}><Logo largura="10.5rem" /></a>
     <div class="hd__r">
       <nav class="tracado hd__links" aria-label="Secundário">{dir.map((l) => <a class="hd__a" href={l.href}>{l.t}</a>)}</nav>
-      <a class="btn btn--linha hd__cta" href={hotel.telefoneLink}>Ligar <span class="num">{hotel.telefone}</span></a>
+      <a class="btn btn--verde hd__cta" href={reservar}>Reservar</a>
       <button class="hd__menu tracado" type="button" aria-expanded="false" aria-controls="painel">Menu</button>
     </div>
   </div>
   <div id="painel" class="hd__painel" hidden>
     <nav aria-label="Menu">
-      {[...esq, ...extra, ...dir].map((l) => <a href={l.href}>{l.t}</a>)}
-      <a href={alvoReserva}>Pedir reserva</a>
-      <a href={hotel.telefoneLink}>Ligar para o hotel</a>
+      {[...esq, ...dir].map((l) => <a href={l.href}>{l.t}</a>)}
+      <a href={reservar}>Reservar pelo WhatsApp</a>
+      <a href={negocio.telefoneLink}>Ligar {negocio.telefone}</a>
     </nav>
   </div>
 </header>
@@ -31,7 +28,6 @@ const extra = [{ href: '/#comodidades', t: 'Comodidades' }];
   const hd = document.querySelector<HTMLElement>('[data-hd]')!;
   const btn = hd.querySelector<HTMLButtonElement>('.hd__menu')!;
   const painel = document.getElementById('painel')!;
-  // Cabeçalho ganha fundo e filete ao rolar (estado discreto, sem salto de layout).
   let pedido = false;
   const marcar = () => { hd.classList.toggle('is-rolado', scrollY > 8); pedido = false; };
   addEventListener('scroll', () => { if (!pedido) { pedido = true; requestAnimationFrame(marcar); } }, { passive: true });
@@ -47,32 +43,30 @@ const extra = [{ href: '/#comodidades', t: 'Comodidades' }];
   btn.addEventListener('click', () => abrir(btn.getAttribute('aria-expanded') !== 'true'));
   painel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => abrir(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !painel.hidden) { abrir(false); btn.focus(); } });
-  matchMedia('(min-width: 75.01rem)').addEventListener('change', (m) => { if (m.matches && !painel.hidden) abrir(false, false); });
+  matchMedia('(min-width: 62.01rem)').addEventListener('change', (m) => { if (m.matches && !painel.hidden) abrir(false, false); });
 </script>
 <style>
-  .hd { position: sticky; top: 0; z-index: 30; height: var(--hd-h); background: var(--off); transition: box-shadow .4s var(--ease), background-color .4s var(--ease); }
-  .hd::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--areia); opacity: 0; transition: opacity .4s var(--ease); }
-  .hd.is-rolado { box-shadow: 0 10px 30px -24px rgb(0 0 0 / .45); }
+  .hd { position: sticky; top: 0; z-index: 30; height: var(--hd-h); background: var(--preto); transition: box-shadow .4s var(--ease); }
+  .hd::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: rgb(255 255 255 / .18); opacity: 0; transition: opacity .4s var(--ease); }
   .hd.is-rolado::after { opacity: 1; }
   .hd__in { height: 100%; width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-  .hd__logo { text-decoration: none; display: inline-flex; align-items: center; min-height: 2.75rem; }
-  .hd__l, .hd__links { display: flex; gap: clamp(1.1rem, 2.2vw, 2.2rem); }
-  .hd__a, .hd__cta { white-space: nowrap; }
-  .hd__r { display: flex; justify-content: flex-end; align-items: center; gap: 2.2rem; }
-  .hd__a { position: relative; display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; color: var(--grafite); }
-  .hd__a::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: 2px; background: var(--ouro); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease-out); }
+  .hd__logo { justify-self: center; text-decoration: none; display: inline-flex; align-items: center; min-height: 2.75rem; }
+  .hd__l, .hd__links { display: flex; gap: clamp(1.25rem, 2.6vw, 2.6rem); }
+  .hd__r { display: flex; justify-content: flex-end; align-items: center; gap: clamp(1.25rem, 2.6vw, 2.6rem); }
+  .hd__a { position: relative; display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; color: var(--branco); white-space: nowrap; }
+  .hd__a::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: 2px; background: var(--verde-claro); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease-out); }
   @media (hover: hover) { .hd__a:hover::after { transform: scaleX(1); } }
-  .hd__cta { min-height: 2.75rem; padding: .6rem 1.4rem; }
-  .hd__menu { display: none; position: relative; z-index: 40; min-height: 2.75rem; padding: .5rem 0; background: none; border: 0; color: var(--grafite); font-family: var(--f-texto); cursor: pointer; }
-  .hd__painel { position: fixed; inset: 0; z-index: 25; background: var(--off); padding: calc(var(--hd-h) + 1.5rem) var(--gutter) 2rem; overflow: auto; animation: painel .45s var(--ease-out); }
+  .hd__cta { min-height: 2.75rem; padding: .6rem 1.5rem; }
+  .hd__menu { display: none; position: relative; z-index: 40; min-height: 2.75rem; padding: .5rem 0; background: none; border: 0; color: var(--branco); font-family: var(--f-texto); cursor: pointer; }
+  .hd__painel { position: fixed; inset: 0; z-index: 25; background: var(--preto); padding: calc(var(--hd-h) + 1.5rem) var(--gutter) 2rem; overflow: auto; animation: painel .45s var(--ease-out); }
   .hd__painel[hidden] { display: none; }
   .hd__painel nav { display: grid; }
-  .hd__painel a { padding: 1rem 0; border-bottom: 1px solid var(--areia); font: 400 clamp(2rem, 8vw, 2.8rem)/1.1 var(--f-titulo); color: var(--grafite); text-decoration: none; }
+  .hd__painel a { padding: 1rem 0; border-bottom: 1px solid rgb(255 255 255 / .2); font: 400 clamp(1.9rem, 7.5vw, 2.6rem)/1.1 var(--f-titulo); color: var(--branco); text-decoration: none; }
   @keyframes painel { from { opacity: 0; transform: translateY(-.75rem); } to { opacity: 1; transform: none; } }
-  @media (max-width: 75rem) {
+  @media (max-width: 62rem) {
     .hd__in { grid-template-columns: 1fr auto; } .hd__l, .hd__links, .hd__cta { display: none; }
-    .hd__logo { grid-column: 1; grid-row: 1; justify-self: start; } .hd__logo :global(.logo) { justify-items: start; }
+    .hd__logo { grid-column: 1; grid-row: 1; justify-self: start; }
     .hd__r { grid-column: 2; grid-row: 1; } .hd__menu { display: block; }
   }
-  @media (min-width: 75.01rem) { .hd__painel { display: none !important; } }
+  @media (min-width: 62.01rem) { .hd__painel { display: none !important; } }
 </style>

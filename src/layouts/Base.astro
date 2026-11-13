@@ -3,23 +3,21 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BarraLigar from '../components/BarraLigar.astro';
-import { hotel, comodidades, textos, seo } from '../conteudo/ativo';
+import { negocio, textos, seo } from '../conteudo/ativo';
 
-interface Props { title?: string; description?: string; temReserva?: boolean }
+interface Props { title?: string; description?: string }
 const {
-  title = `${hotel.nome} · Hospedagem em ${hotel.cidade}, ${hotel.uf}`,
+  title = `${negocio.nome} · Gastronomia em ${negocio.cidade}, ${negocio.uf}`,
   description = seo.descricao,
-  temReserva = true,
 } = Astro.props;
 
-// Dados estruturados (Schema.org): só fatos do documento do hotel. Sem nota de avaliação,
-// porque o Google não aceita avaliações autodeclaradas em dados estruturados.
+// Dados estruturados (Schema.org): só fatos da documentação. Sem nota de avaliação (o Google não aceita
+// avaliação autodeclarada) e sem horários, que ainda não foram confirmados.
 const dados = {
-  '@context': 'https://schema.org', '@type': 'Hotel', name: hotel.nome,
-  address: { '@type': 'PostalAddress', streetAddress: hotel.endereco, addressLocality: hotel.cidade, addressRegion: hotel.uf, postalCode: hotel.cep, addressCountry: 'BR' },
-  telephone: hotel.telefoneIntl, checkinTime: hotel.checkInHora, checkoutTime: hotel.checkOutHora,
-  ...(hotel.estrelas ? { starRating: { '@type': 'Rating', ratingValue: hotel.estrelas } } : {}),
-  amenityFeature: comodidades.map((c) => ({ '@type': 'LocationFeatureSpecification', name: c, value: true })),
+  '@context': 'https://schema.org', '@type': 'Restaurant', name: negocio.nome,
+  servesCuisine: 'Gastronomia contemporânea de inspiração italiana',
+  address: { '@type': 'PostalAddress', streetAddress: negocio.endereco, addressLocality: negocio.cidade, addressRegion: negocio.uf, postalCode: negocio.cep, addressCountry: 'BR' },
+  telephone: negocio.telefoneIntl,
 };
 ---
 <!doctype html>
@@ -29,7 +27,7 @@ const dados = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#000000" />
     {!seo.indexar && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -48,7 +46,7 @@ const dados = {
   <body>
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
     {textos.aviso && <aside class="aviso" aria-label="Aviso do projeto">{textos.aviso}</aside>}
-    <Header temReserva={temReserva} />
+    <Header />
     <main id="conteudo"><slot /></main>
     <Footer />
     <BarraLigar />
@@ -56,5 +54,5 @@ const dados = {
   </body>
 </html>
 <style is:global>
-  .aviso { padding: .55rem var(--gutter); background: var(--champ); color: var(--marrom); font-size: .8rem; line-height: 1.3; text-align: center; }
+  .aviso { padding: .55rem var(--gutter); background: var(--creme); color: var(--texto-2); font-size: .8rem; line-height: 1.3; text-align: center; }
 </style>

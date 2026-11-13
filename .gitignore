@@ -6,3 +6,4 @@ videos-originais/
 fotos-originais/
 test-results
 playwright-report
+playwright.local.config.ts

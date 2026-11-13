@@ -1,19 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
-import { hotel } from '../conteudo/ativo';
+import { negocio } from '../conteudo/ativo';
 ---
-<Base title={`Página não encontrada · ${hotel.nome}`} temReserva={false}>
-  <section class="section">
+<Base title={`Página não encontrada · ${negocio.nome}`}>
+  <section class="section sec--escura nf-sec">
     <div class="container nf">
       <span class="filete" aria-hidden="true"></span>
       <h1>Página não encontrada</h1>
       <p class="lead">O endereço pode ter mudado ou ter sido digitado errado. Siga por um destes caminhos:</p>
-      <div class="nf__acoes"><a class="btn" href="/">Voltar ao início</a><a class="btn btn--linha" href="/acomodacoes/">Ver as acomodações</a></div>
+      <div class="nf__acoes"><a class="btn btn--verde" href="/">Voltar ao início</a><a class="btn btn--linha" href="/cardapio/">Ver o cardápio</a></div>
     </div>
   </section>
 </Base>
 <style>
-  .nf { display: grid; gap: 1.75rem; justify-items: start; min-height: 52vh; align-content: center; }
+  .nf-sec { min-height: 60vh; display: grid; align-items: center; }
+  .nf { display: grid; gap: 1.75rem; justify-items: start; }
   .nf .lead { margin: 0; max-width: 46ch; }
   .nf__acoes { display: flex; flex-wrap: wrap; gap: 1rem; }
 </style>

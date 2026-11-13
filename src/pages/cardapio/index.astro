@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import Quadro from '../../components/Quadro.astro';
+import { negocio, cardapio, textos, seo } from '../../conteudo/ativo';
+const t = textos.cardapio;
+const total = cardapio.reduce((n, c) => n + c.pratos.length, 0);
+const plural = (n: number) => `${n} ${n === 1 ? 'prato' : 'pratos'}`;
+---
+<Base title={`${t.titulo} · ${negocio.nome}`} description={seo.descricaoCardapio}>
+  <section class="topo sec--escura" aria-labelledby="h-cardapio">
+    <div class="container topo__in">
+      <h1 id="h-cardapio">{t.titulo}</h1>
+      <span class="filete" aria-hidden="true"></span>
+      <p class="lead">{t.lead}</p>
+      <p class="topo__nota">{t.nota}</p>
+    </div>
+  </section>
+
+  <nav class="cats" aria-label="Categorias do cardápio">
+    <ul class="cats__in container tracado">
+      {cardapio.map((c) => <li><a href={`#${c.id}`} data-cat={c.id}>{c.nome}</a></li>)}
+    </ul>
+  </nav>
+
+  {cardapio.map((c, i) => (
+    <section class:list={['categoria', 'section', i % 2 === 1 && 'sec--creme']} id={c.id} aria-labelledby={`h-${c.id}`}>
+      <div class="container cat__g">
+        <div class="cat__lado" data-revelar>
+          <p class="rotulo">{plural(c.pratos.length)}</p>
+          <h2 id={`h-${c.id}`}>{c.nome}</h2>
+          <Quadro rotulo={t.quadro} proporcao="3 / 2" />
+        </div>
+        <ul class="pratos">
+          {c.pratos.map((p) => (
+            <li class="prato" data-revelar>
+              <h3>{p.nome}</h3>
+              {p.descricao && <p>{p.descricao}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="fim sec--escura">
+    <div class="container fim__in">
+      <p class="fim__t">{total} pratos em {cardapio.length} categorias.</p>
+      <a class="btn btn--verde" href="/#reservas">Reservar pelo WhatsApp</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .topo { padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(2.5rem, 5vw, 4rem); }
+  .topo__in { display: grid; gap: 1.2rem; justify-items: start; }
+  .topo .lead { margin: 0; max-width: 46ch; }
+  .topo__nota { margin: 0; font-size: .9rem; color: var(--claro-sobre-preto); max-width: 60ch; }
+
+  .cats { position: sticky; top: var(--hd-h); z-index: 20; background: var(--branco); border-bottom: 1px solid var(--areia); }
+  .cats__in { display: flex; gap: clamp(1.25rem, 3vw, 2.5rem); overflow-x: auto; scrollbar-width: none; }
+  .cats__in::-webkit-scrollbar { display: none; }
+  .cats a { position: relative; display: inline-flex; align-items: center; min-height: 3.25rem; text-decoration: none; color: var(--texto-2); white-space: nowrap; }
+  .cats a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--verde); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease-out); }
+  .cats a[aria-current='true'] { color: var(--tinta); }
+  .cats a[aria-current='true']::after { transform: scaleX(1); }
+  @media (hover: hover) { .cats a:hover { color: var(--tinta); } .cats a:hover::after { transform: scaleX(1); } }
+
+  .cat__g { display: grid; gap: 2rem; align-items: start; }
+  .cat__lado { display: grid; gap: 1.1rem; justify-items: start; }
+  .cat__lado :global(.quadro) { width: 100%; margin-top: .5rem; }
+  .pratos { display: grid; }
+  .prato { padding: 1.5rem 0; border-bottom: 1px solid var(--linha); }
+  .prato:first-child { border-top: 1px solid var(--linha); padding-top: 1.5rem; }
+  .prato h3 { font-size: clamp(1.35rem, 1.1rem + .8vw, 1.75rem); }
+  .prato p { margin: .5rem 0 0; color: var(--texto-2); max-width: 56ch; }
+  @media (min-width: 62rem) {
+    .cat__g { grid-template-columns: 4fr 7fr; gap: 6rem; }
+    .cat__lado { position: sticky; top: calc(var(--hd-h) + 4.5rem); }
+  }
+
+  .fim { padding-block: clamp(3rem, 6vw, 5rem); }
+  .fim__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .fim__t { margin: 0; font: 400 var(--t-h3)/1.2 var(--f-titulo); }
+</style>
+<script>
+  // Marca a categoria visível no menu fixo. Só decoração: os links funcionam sem isto.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.cats a[data-cat]')];
+  const secoes = links.map((a) => document.getElementById(a.dataset.cat!)!).filter(Boolean);
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.setAttribute('aria-current', String(a.dataset.cat === e.target.id)));
+        const ativo = links.find((a) => a.dataset.cat === e.target.id);
+        ativo?.scrollIntoView({ inline: 'center', block: 'nearest' });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    secoes.forEach((s) => obs.observe(s));
+  }
+</script>

@@ -1,59 +1,40 @@
-/**
- * Formato do conteúdo de um cliente. Todo arquivo de cliente (winner.ts, em-branco.ts...) segue estes tipos,
- * então o editor avisa quando falta ou sobra algum campo.
- */
-export interface Hotel {
+/** Formato do conteúdo de um restaurante. O editor avisa quando falta ou sobra algum campo. */
+export interface Negocio {
   nome: string;
-  categoria: string;          // ex.: 'Hotel 2 estrelas', 'Pousada'
-  estrelas: number | null;    // usado nos dados estruturados; null se não houver
+  descritor: string;            // 'Restaurante'
   cidade: string;
   uf: string;
-  endereco: string;           // rua e número
+  endereco: string;             // rua e número
+  bairro: string;
   cep: string;
   enderecoCompleto: string;
-  telefone: string;           // como aparece na tela
-  telefoneLink: string;       // 'tel:+55...'
-  telefoneIntl: string;       // '+55 17 3325-7186'
-  siteAtual: string;          // site atual do cliente ('' se não houver)
-  siteAtualRotulo: string;
-  logo: string;               // arquivo em /public, ex.: '/logo.png'
+  telefone: string;             // como aparece na tela
+  telefoneLink: string;         // 'tel:+55...'
+  telefoneIntl: string;
+  whatsapp: string;             // só dígitos com DDI
+  instagram: string;            // '@santinarestaurante'
+  instagramUrl: string;         // '' se o link ainda não foi confirmado
   mapaLink: string;
-  whatsapp: string;           // só dígitos com DDI; '' = o formulário oferece ligar ou copiar a mensagem
-  checkIn: string;            // texto: 'a partir das 13h'
-  checkOut: string;
-  checkInHora: string;        // '13:00'
-  checkOutHora: string;
-  cafe: string;
+  logo: string;                 // arquivo em /public
+  logoAlt: string;
 }
 
-export interface Avaliacao {
-  nota: string;               // '4,3'
-  total: number;
-  fonte: string;              // 'Google'
-  temas: { titulo: string; itens: string[] }[];
-}
+export interface Prato { nome: string; descricao?: string }
+export interface Categoria { id: string; nome: string; pratos: Prato[] }
+export interface Servico { id: 'local' | 'viagem' | 'entrega'; nome: string }
+export interface Avaliacao { nota: string; total: number; fonte: string; temas: { titulo: string; itens: string[] }[] }
 
-export interface FotoApto { src: string; alt: string; legenda: string }
-export interface Apartamento { id: string; nome: string; pessoas: number; fotos: FotoApto[] }
-export interface PontoTuristico { nome: string; distancia: string }
-export interface Distancia { lugar: string; km: string }
-
-export interface Secoes { roteiro: boolean; pontosTuristicos: boolean; avaliacoes: boolean }
-export interface Seo { indexar: boolean; descricao: string }
+export interface Seo { indexar: boolean; descricao: string; descricaoCardapio: string }
 
 export interface Textos {
-  aviso: string;              // faixa do topo; '' = sem faixa
-  rodapeNota: string;         // '' = sem nota
-  rodapeSite: string;
-  hero: { linha1: string; linha2: string; lead: string; ligar: string; reservaLink: string; legendaVideo: string; legendaSemVideo: string };
-  roteiro: { titulo: string; passos: { t: string; d: string }[] };
-  acomodacoes: {
-    titulo: string; categoriaRotulo: string; lead: string; nota: string; botao: string; semFoto: string;
-    paginaDescricao: string; equipTitulo: string; equipFonte: string; notaPagina: string; equipCat: string;
-    noHotel: string; emDefinicaoTitulo: string; emDefinicaoNota: string; emDefinicao: string[];
-  };
-  localizacao: { titulo: string; botaoMapa: string; notaDistancias: string };
-  pontos: { tituloHome: string; botaoHome: string; titulo: string; descricao: string; lead: string; nota: string; semDistancia: string; chamada: string };
+  aviso: string;                // faixa do topo; '' = sem faixa
+  rodapeNota: string;
+  hero: { titulo: string; lead: string; cardapio: string; reservar: string; quadro: string };
+  historia: { rotulo: string; titulo: string; texto: string[]; pendente: string; quadroFachada: string; quadroInterior: string };
+  experiencia: { rotulo: string; titulo: string; lead: string; destaques: { quadro: string; categoria: string; prato: string }[]; extras: string; botao: string };
+  ambiente: { rotulo: string; titulo: string; lead: string; quadros: string[] };
   avaliacoes: { tituloLeitor: string; nota: string };
-  contato: { titulo: string; lead: string; descricao: string; reserva: string };
+  reservas: { rotulo: string; titulo: string; lead: string; nota: string };
+  local: { rotulo: string; titulo: string; horarios: string; horariosNota: string; servicos: string; mapa: string };
+  cardapio: { titulo: string; lead: string; nota: string; quadro: string; semDescricao: string };
 }

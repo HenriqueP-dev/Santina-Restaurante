@@ -1,0 +1,27 @@
+---
+/**
+ * QUADRO de foto: espaço reservado, assumido como tal, com a descrição do que vai nele.
+ * Troca por foto real: passe `foto="/fotos/arquivo.webp"` e um `alt` que descreva a imagem.
+ * A moldura interna lembra, sem copiar, o filete branco da logo.
+ */
+interface Props { rotulo: string; foto?: string; alt?: string; proporcao?: string; class?: string; ancora?: boolean }
+const { rotulo, foto, alt = '', proporcao = '3 / 2', class: cls } = Astro.props;
+---
+<figure class:list={['quadro', cls]} style={`aspect-ratio:${proporcao}`} data-revelar-foto>
+  {foto
+    ? <img src={foto} alt={alt} loading="lazy" decoding="async" />
+    : <div class="quadro__in">
+        <span class="quadro__k">Foto a enviar</span>
+        <span class="quadro__t">{rotulo}</span>
+        <span class="filete" aria-hidden="true"></span>
+      </div>}
+</figure>
+<style>
+  .quadro { position: relative; margin: 0; overflow: hidden; border-radius: var(--raio); background: color-mix(in srgb, var(--fg) 8%, transparent); }
+  .quadro img { width: 100%; height: 100%; object-fit: cover; }
+  .quadro__in { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: .8rem; padding: 2.2rem 1.6rem; text-align: center; }
+  .quadro__in::before { content: ''; position: absolute; inset: .7rem; border: 1px solid color-mix(in srgb, var(--fg) 38%, transparent); border-radius: 1px; pointer-events: none; }
+  .quadro__k { font-size: .75rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--fg-2); }
+  .quadro__t { max-width: 26ch; font: 400 clamp(1.05rem, .95rem + .5vw, 1.35rem)/1.3 var(--f-titulo); color: var(--fg); text-wrap: balance; }
+  .quadro .filete { width: 3rem; }
+</style>

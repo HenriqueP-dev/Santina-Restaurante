@@ -1,0 +1,129 @@
+---
+import { negocio, textos } from '../conteudo/ativo';
+---
+<form class="rb" id="reserva" novalidate aria-label="Pedido de reserva de mesa"
+  data-wa={negocio.whatsapp} data-tel={negocio.telefoneLink} data-telnum={negocio.telefone}>
+  <div class="rb__resumo" tabindex="-1" hidden aria-labelledby="rb-resumo-t">
+    <p id="rb-resumo-t" class="rb__resumo-t"></p>
+    <ul></ul>
+  </div>
+  <div class="rb__campos">
+    <div class="campo"><label for="f-data">Data</label><input id="f-data" name="data" type="date" required aria-describedby="e-data" /><p class="erro" id="e-data" hidden></p></div>
+    <div class="campo"><label for="f-hora">Horário</label><input id="f-hora" name="hora" type="time" required aria-describedby="e-hora" /><p class="erro" id="e-hora" hidden></p></div>
+    <div class="campo"><label for="f-pessoas">Pessoas</label>
+      <select id="f-pessoas" name="pessoas">{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <option selected={n === 2}>{n}</option>)}</select></div>
+    <div class="campo"><label for="f-nome">Seu nome (opcional)</label><input id="f-nome" name="nome" type="text" autocomplete="name" /></div>
+  </div>
+  <button class="btn btn--verde rb__ok" type="submit">Reservar pelo WhatsApp</button>
+  <p class="rb__nota">{textos.reservas.nota}</p>
+  <div class="rb__msg" role="status" aria-live="polite"></div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#reserva')!;
+  const d = form.dataset;
+  const $ = <T extends HTMLElement>(n: string) => form.elements.namedItem(n) as unknown as T;
+  const dataEl = $<HTMLInputElement>('data'), horaEl = $<HTMLInputElement>('hora'), pEl = $<HTMLSelectElement>('pessoas'), nomeEl = $<HTMLInputElement>('nome');
+  const msg = form.querySelector<HTMLElement>('.rb__msg')!;
+  const resumo = form.querySelector<HTMLElement>('.rb__resumo')!;
+  const iso = (x: Date) => new Date(x.getTime() - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  dataEl.min = iso(new Date());
+  const br = (s: string) => s.split('-').reverse().join('/');
+
+  function erro(el: HTMLElement, id: string, texto: string | null) {
+    const p = form.querySelector<HTMLElement>('#' + id)!;
+    p.hidden = !texto; p.textContent = texto ?? '';
+    texto ? el.setAttribute('aria-invalid', 'true') : el.removeAttribute('aria-invalid');
+  }
+  const regraData = (exigir: boolean) =>
+    !dataEl.value ? (exigir ? 'Escolha a data.' : null)
+    : dataEl.value < dataEl.min ? 'A data não pode ser antes de hoje. Escolha hoje ou uma data futura.' : null;
+  const regraHora = (exigir: boolean) => (!horaEl.value && exigir ? 'Escolha o horário.' : null);
+  const esconderResumo = () => { resumo.hidden = true; };
+
+  dataEl.addEventListener('change', () => erro(dataEl, 'e-data', regraData(false)));
+  horaEl.addEventListener('change', () => erro(horaEl, 'e-hora', regraHora(false)));
+  [dataEl, horaEl, pEl, nomeEl].forEach((el) => el.addEventListener('input', () => { esconderResumo(); msg.textContent = ''; }));
+
+  function mostrarResumo(falhas: { el: HTMLElement; texto: string }[]) {
+    resumo.querySelector('p')!.textContent = falhas.length === 1 ? 'Falta corrigir 1 campo:' : `Faltam corrigir ${falhas.length} campos:`;
+    resumo.querySelector('ul')!.replaceChildren(...falhas.map(({ el, texto }) => {
+      const li = document.createElement('li'), a = document.createElement('a');
+      a.href = '#' + el.id; a.textContent = texto;
+      a.addEventListener('click', (e) => { e.preventDefault(); el.focus(); });
+      li.append(a); return li;
+    }));
+    resumo.hidden = false; resumo.focus();
+  }
+
+  const botao = (rotulo: string, tipo: 'a' | 'button', extra: string) => {
+    const el = document.createElement(tipo); el.className = `btn ${extra}`.trim(); el.textContent = rotulo; return el;
+  };
+  function copiarMensagem(texto: string) {
+    const b = botao('Copiar mensagem', 'button', 'btn--linha') as HTMLButtonElement; b.type = 'button';
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(texto); b.textContent = 'Mensagem copiada'; }
+      catch { b.textContent = 'Não foi possível copiar'; }
+    });
+    return b;
+  }
+  function ligar() { const a = botao(`Ligar, ${d.telnum}`, 'a', 'btn--linha') as HTMLAnchorElement; a.href = d.tel!; return a; }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault(); msg.textContent = ''; esconderResumo();
+    const checagens: [HTMLElement, string, string | null][] = [[dataEl, 'e-data', regraData(true)], [horaEl, 'e-hora', regraHora(true)]];
+    checagens.forEach(([el, id, t]) => erro(el, id, t));
+    const falhas = checagens.filter(([, , t]) => t).map(([el, , t]) => ({ el, texto: t! }));
+    if (falhas.length) { mostrarResumo(falhas); return; }
+
+    const n = Number(pEl.value);
+    const nome = nomeEl.value.trim();
+    const texto = `Olá! ${nome ? `Sou ${nome}. ` : ''}Gostaria de reservar uma mesa no Santina para ${n} ${n === 1 ? 'pessoa' : 'pessoas'} no dia ${br(dataEl.value)}, às ${horaEl.value}. Podem confirmar a disponibilidade?`;
+
+    if (d.wa) {
+      const url = `https://wa.me/${d.wa}?text=${encodeURIComponent(texto)}`;
+      // Sem "noopener" no window.open: com ele o retorno é sempre null e não daria para saber se abriu.
+      const aba = window.open(url, '_blank');
+      if (aba) { aba.opener = null; msg.textContent = 'O WhatsApp do restaurante abriu em outra aba com o seu pedido pronto. Falta só enviar a mensagem.'; return; }
+      const p = document.createElement('p'); p.textContent = 'O navegador bloqueou a abertura do WhatsApp. Abra pelo link abaixo, ligue ou copie a mensagem.';
+      const a = botao('Abrir o WhatsApp', 'a', 'btn--verde') as HTMLAnchorElement; a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      const acoes = document.createElement('div'); acoes.className = 'rb__acoes'; acoes.append(a, ligar(), copiarMensagem(texto));
+      msg.replaceChildren(p, acoes); return;
+    }
+    const p = document.createElement('p');
+    p.textContent = `Pedido pronto: ${texto} Ligue para o restaurante ou copie a mensagem. O canal de reservas online ainda será definido.`;
+    const acoes = document.createElement('div'); acoes.className = 'rb__acoes'; acoes.append(ligar(), copiarMensagem(texto));
+    msg.replaceChildren(p, acoes);
+  });
+</script>
+
+<style>
+  .rb { background: var(--branco); color: var(--tinta); padding: 1.75rem 1.5rem 1.5rem; border: 1px solid var(--areia); border-radius: var(--raio); }
+  .rb__resumo { margin-bottom: 1.25rem; padding: .95rem 1.1rem; border: 1px solid var(--vermelho-texto); border-radius: var(--raio); background: #fbf1f1; }
+  .rb__resumo[hidden] { display: none; }
+  .rb__resumo:focus { outline: 2px solid var(--tinta); outline-offset: 3px; }
+  .rb__resumo-t { margin: 0 0 .3rem; font-weight: 600; color: var(--vermelho-texto); }
+  .rb__resumo ul { display: grid; gap: 0; }
+  .rb__resumo :global(a) { color: var(--vermelho-texto); display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration-color: currentColor; }
+  .rb__campos { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.5rem; }
+  .campo { display: grid; gap: .35rem; align-content: start; min-width: 0; }
+  .campo label { font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--texto-2); }
+  .campo input, .campo select { appearance: none; width: 100%; min-height: 2.9rem; padding: .45rem 0; background: transparent; border: 0; border-bottom: 1px solid var(--texto-2); border-radius: 0; color: var(--tinta); font: 400 1.0625rem var(--f-texto); transition: border-color .25s var(--ease); }
+  .campo select { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23080808' stroke-width='1.25'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right .2rem center; padding-right: 1.5rem; }
+  .campo input:focus, .campo select:focus { outline: none; border-bottom: 2px solid var(--verde); }
+  .campo input[aria-invalid='true'] { border-bottom: 2px solid var(--vermelho-texto); }
+  .erro { margin: 0; font-size: .875rem; line-height: 1.35; color: var(--vermelho-texto); font-weight: 600; max-width: none; }
+  .erro::before { content: 'Atenção: '; }
+  .erro[hidden] { display: none; }
+  .rb__ok { width: 100%; margin-top: 1.5rem; }
+  .rb__nota { margin: 1rem 0 0; font-size: .875rem; color: var(--texto-2); max-width: none; }
+  .rb__msg { margin: 0; max-width: none; }
+  .rb__msg:not(:empty) { margin-top: 1rem; padding: 1rem 1.1rem; background: var(--creme); border: 1px solid var(--areia); border-radius: var(--raio); font-size: .95rem; }
+  .rb__msg :global(p) { margin: 0; max-width: none; }
+  .rb__msg :global(.rb__acoes) { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .9rem; }
+  @media (min-width: 62rem) {
+    .rb { padding: 2rem 2.25rem 1.75rem; }
+    .rb__campos { grid-template-columns: repeat(4, 1fr); }
+    .rb__ok { width: auto; padding-inline: 2.75rem; }
+  }
+</style>

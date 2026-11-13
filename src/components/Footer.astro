@@ -1,24 +1,22 @@
 ---
 import Logo from './Logo.astro';
-import { hotel, lema, textos } from '../conteudo/ativo';
+import { negocio, textos } from '../conteudo/ativo';
 ---
-<footer class="ft">
+<footer class="ft sec--escura">
   <div class="container ft__in">
-    <div class="ft__marca"><Logo />{lema && <p class="ft__lema">{lema}</p>}</div>
+    <div class="ft__marca"><Logo largura="14rem" /></div>
     <address class="ft__dados">
-      <p>{hotel.enderecoCompleto}</p>
-      <p><a class="link-ouro num" href={hotel.telefoneLink}>{hotel.telefone}</a></p>
-      {hotel.siteAtual && <p><a class="link-ouro" href={hotel.siteAtual} rel="noopener">{textos.rodapeSite} {hotel.siteAtualRotulo}</a></p>}
+      <p>{negocio.enderecoCompleto}</p>
+      <p><a class="link num" href={negocio.telefoneLink}>{negocio.telefone}</a></p>
+      <p><a class="link" href={negocio.instagramUrl} rel="noopener" target="_blank">Instagram {negocio.instagram}<span class="sr-only"> (abre em nova aba)</span></a></p>
     </address>
     {textos.rodapeNota && <p class="ft__nota">{textos.rodapeNota}</p>}
   </div>
 </footer>
 <style>
-  .ft { border-top: 1px solid var(--areia); padding-block: 4.5rem 3.5rem; }
+  .ft { padding-block: 4.5rem 3.5rem; border-top: 1px solid rgb(255 255 255 / .18); }
   .ft__in { display: grid; gap: 2.5rem; align-items: start; }
-  .ft__marca :global(.logo) { justify-items: start; }
-  .ft__lema { margin: .6rem 0 0; font: 400 1.15rem/1.3 var(--f-titulo); color: var(--marrom); }
-  .ft__dados { font-style: normal; } .ft__dados p { margin: 0 0 .25rem; }
-  .ft__nota { margin: 0; font-size: .875rem; color: var(--marrom); max-width: 50ch; }
+  .ft__dados { font-style: normal; } .ft__dados p { margin: 0 0 .25rem; color: var(--fg-texto); }
+  .ft__nota { margin: 0; font-size: .875rem; color: var(--fg-2); max-width: 50ch; }
   @media (min-width: 62rem) { .ft__in { grid-template-columns: 1fr 1.1fr 1.3fr; gap: 4rem; } }
 </style>
