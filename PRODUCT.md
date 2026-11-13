@@ -37,14 +37,16 @@ Gastronomia contemporânea com inspiração italiana em um **casarão histórico
 
 ## Brand Commitments
 - Nome: Santina Restaurante.
-- Direção pedida (vinculante): site sofisticado, editorial e contemporâneo; referências de qualidade Casa Angelina, Bürgenstock Resort Lake Lucerne e One&Only Cape Town, sem copiar layouts.
-- Paleta inicial **para exploração** (não fixada): vinho escuro, creme, bege quente, preto ou grafite, dourado discreto. Tipografia: serifada elegante nos títulos, sans moderna no texto.
+- **A logo oficial é a principal referência visual e institucional** (ainda a receber como arquivo neste repositório). Descrição dada pelo cliente: SANTINA em serifada elegante, moldura ornamental branca, RESTAURANTE em letras espaçadas, detalhe horizontal verde e vermelho, ramos decorativos verdes na parte inferior, fundo preto. Não recriar, redesenhar nem alterar a logo; usar o arquivo oficial, de preferência em superfícies escuras (fundo preto). Versão transparente ou para fundo claro só com autorização; registrar a necessidade.
+- **Paleta vinculante (ponto de partida, pode ser refinado):** preto `#080808`, branco `#FFFFFF`, verde `#278348`, vermelho `#C83D43`, creme `#F2EEE6`. Preto e branco formam a base; verde e vermelho aparecem só como detalhes de identidade, sem lembrar a bandeira da Itália; creme em seções claras. **Não usar dourado nem vinho como cores principais** (substitui a paleta exploratória anterior).
+- Tipografia: serifada elegante nos títulos (sugestão: Cormorant Garamond ou outra) e sans moderna no texto e na navegação (sugestão: Manrope ou outra); letras espaçadas nos elementos institucionais, como na logo.
+- Direção: identidade clássica italiana + gastronomia contemporânea + design editorial sofisticado, composições minimalistas, animações discretas. Referências de qualidade (não de identidade): Casa Angelina, Bürgenstock Resort Lake Lucerne, One&Only Cape Town. **Nenhuma referência externa substitui a personalidade da marca.**
 - Evitar: layout genérico de restaurante, muitos cartões pequenos, excesso de animação, fotos que não correspondam aos pratos.
 
 ## Evidence on Hand
 - Documentação do cliente com cardápio completo, dados do estabelecimento e posicionamento.
 - Avaliação no Google: **4,8 (299 avaliações)**. Comentários elogiam ambiente, carta de vinhos, comida, apresentação dos pratos, drinks e atendimento; há críticas pontuais a atendimento e a alguns pratos. Não serão usados como promessa publicitária.
-- **Ausências que não podem ser inventadas:** fotos (pratos e ambiente), logo, vídeo próprio, horários completos, preços, história do casarão, serviço de eventos.
+- **Ausências que não podem ser inventadas:** fotos (pratos e ambiente), arquivo da logo (ainda não recebido), vídeo próprio, horários completos, preços, história do casarão, serviço de eventos.
 
 ## Product Principles
 1. Verdade antes de efeito: nenhum dado, prato, preço ou foto fabricado.
