@@ -75,7 +75,7 @@ Escala: display `clamp(2.4rem → 5rem)`, h2 `clamp(2.1rem → 3.75rem)`, h3 `cl
 A logo tem duas peças que o site reutiliza, cada uma **com a mesma função que tem nela**:
 
 - **Filete tricolor** (3 px: verde, branco/areia, vermelho). Na logo, separa o nome (SANTINA) do descritivo (RESTAURANTE). No site, só aparece nessa função: entre um título e o descritivo em caixa alta (título do cardápio; endereço + "Centro · Barretos · SP"). Nunca como enfeite abaixo de um h2 qualquer nem dentro de quadros.
-- **Placa** (`.placa`): o contorno da logo, com cantos de cima arredondados e cantos de baixo entalhados, traço branco em fundo escuro e preto em fundo claro. Emoldura só o que merece peso: a **ação** (o formulário de reserva) e a **prova** (a nota 4,8 do Google). Mais de dois usos por página diluem o efeito.
+- **Placa** (`.placa`): o contorno da logo, com cantos de cima arredondados e cantos de baixo entalhados, traço branco em fundo escuro e preto em fundo claro. Emoldura só o que merece peso: a **abertura** (a janela do vídeo, sobre preto, sem véu), a **ação** (o formulário de reserva) e a **prova** (a nota 4,8 do Google). Mais de três usos por página diluem o efeito.
 
 **Sem eyebrow.** Os rótulos em caixa alta acima de cada h2 foram removidos: viravam fórmula (rótulo, título, parágrafo) repetida em todas as seções. Caixa alta espaçada fica para o descritivo do filete, a navegação e os botões.
 
@@ -124,3 +124,4 @@ GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros q
 
 - Sorts Mill Goudy tem algarismos antigos, que deixavam o telefone ilegível. Números de contato, contagens e a nota usam Manrope com algarismos tabulares (`.num-sans`).
 - O aviso "a história entra quando o Santina confirmar" saiu da página; a pendência continua em `PENDENCIAS.md`.
+- Abertura: era vídeo em tela cheia com véu escuro e título embaixo à esquerda (fórmula comum) e o clipe de banco, de baixa definição, ficava esticado e turvo. Agora é um palco preto: título e botões direto sobre o preto (contraste máximo, sem véu) e o vídeo numa janela com o contorno da placa. No celular o texto vem primeiro e o vídeo aparece logo abaixo.
