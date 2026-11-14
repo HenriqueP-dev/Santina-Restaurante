@@ -4,6 +4,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BarraLigar from '../components/BarraLigar.astro';
 import { negocio, textos, seo } from '../conteudo/ativo';
+// Fontes do topo da página (latim): pré-carregadas para o texto não trocar de fonte no meio da leitura.
+import goudy from '@fontsource/sorts-mill-goudy/files/sorts-mill-goudy-latin-400-normal.woff2?url';
+import manrope from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 
 interface Props { title?: string; description?: string }
 const {
@@ -33,9 +36,11 @@ const dados = {
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <link rel="preload" as="font" type="font/woff2" href={goudy} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={manrope} crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script type="application/ld+json" set:html={JSON.stringify(dados)} />
-    <!-- Movimento só quando permitido. Se o script de animação não carregar em 2,5 s, o conteúdo aparece mesmo assim. -->
+    <!-- Movimento só quando permitido. Se o script de movimento não rodar em 2,5 s, o conteúdo aparece mesmo assim. -->
     <script is:inline>
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         var r = document.documentElement; r.classList.add('mov');

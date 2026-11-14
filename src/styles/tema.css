@@ -13,7 +13,6 @@
      --verde-claro #4fb06f: preto 7,8 · --vermelho-claro #e0666b: preto 6,3 (textos pequenos sobre preto)
    ============================================================ */
 @import '@fontsource/sorts-mill-goudy/400.css';
-@import '@fontsource/sorts-mill-goudy/400-italic.css';
 @import '@fontsource-variable/manrope';
 
 :root {

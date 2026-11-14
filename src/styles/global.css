@@ -116,11 +116,19 @@ h3 { font-size: var(--t-h3); line-height: 1.2; }
 .link::after { content: ''; position: absolute; left: 0; right: 0; bottom: .55rem; height: 2px; background: var(--verde); transform-origin: left; transition: transform .45s var(--ease-out); }
 @media (hover: hover) { .link:hover::after { transform: scaleX(.35); } }
 
-/* revelar ao rolar: estado inicial só quando o JS de movimento está ativo */
-.mov [data-revelar], .mov [data-hero-item] { opacity: 0; }
+/* revelar ao rolar: o estado escondido só existe quando o JS de movimento está ativo (.mov).
+   Só opacity e transform; o script coloca .on quando o bloco entra na tela. */
+.mov [data-revelar], .mov [data-hero-item] { opacity: 0; transform: translateY(24px); transition: opacity 1.1s var(--ease-out) var(--atraso, 0s), transform 1.1s var(--ease-out) var(--atraso, 0s); }
+.mov [data-revelar].on, .mov [data-hero-item].on { opacity: 1; transform: none; }
+.mov [data-hero-quadro] { opacity: 0; transition: opacity 1.2s ease-out; }
+.mov [data-hero-quadro].on { opacity: 1; }
+/* foto que se abre: a imagem assenta de 1,06 para 1 dentro da moldura (sem recortar, sem repintar a página) */
+.mov [data-revelar-foto] img { transform: scale(1.06); transition: transform 1.8s var(--ease-out); }
+.mov [data-revelar-foto].on img { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
-  .mov [data-revelar], .mov [data-hero-item] { opacity: 1; }
+  .mov [data-revelar], .mov [data-hero-item], .mov [data-hero-quadro] { opacity: 1; transform: none; }
+  .mov [data-revelar-foto] img { transform: none; }
 }

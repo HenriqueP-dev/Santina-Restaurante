@@ -1,15 +1,16 @@
 ---
 /**
  * Vídeo da abertura: mudo, em repetição, decorativo (aria-hidden), com botão de pausa visível (WCAG 2.2.2).
- * Com "reduzir movimento", economia de dados ou conexão lenta, fica a capa e o botão permite tocar.
+ * Leveza: o HTML traz só a capa (WebP). O vídeo NÃO é baixado no carregamento: o script o busca depois que a
+ * página terminou de carregar, na versão de 480p (celular) ou 720p, em WebM ou, se o navegador não souber, MP4.
+ * Com "reduzir movimento", economia de dados ou conexão lenta, fica a capa e o vídeo só carrega se a pessoa tocar.
  */
-import { temWebm, temMp4, temPosterHero } from '../lib/midia';
+import { temWebm, temMp4, temWebmSm, temMp4Sm, temPosterHero } from '../lib/midia';
 ---
-<video class="hv__v" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"
-  poster={temPosterHero ? '/videos/hero-poster.jpg' : undefined} data-hero-video>
-  {temWebm && <source src="/videos/hero.webm" type="video/webm" />}
-  {temMp4 && <source src="/videos/hero.mp4" type="video/mp4" />}
-</video>
+<video class="hv__v" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
+  poster={temPosterHero ? '/videos/hero-poster.webp' : undefined} data-hero-video
+  data-webm={temWebm ? '/videos/hero.webm' : undefined} data-mp4={temMp4 ? '/videos/hero.mp4' : undefined}
+  data-sm-webm={temWebmSm ? '/videos/hero-sm.webm' : undefined} data-sm-mp4={temMp4Sm ? '/videos/hero-sm.mp4' : undefined}></video>
 <button class="hv__btn" type="button" data-hero-btn>Pausar vídeo</button>
 <script>
   const v = document.querySelector<HTMLVideoElement>('[data-hero-video]');
@@ -19,8 +20,27 @@ import { temWebm, temMp4, temPosterHero } from '../lib/midia';
     const con = (navigator as any).connection;
     const poupar = !!con && (con.saveData === true || /(^|-)(2g|3g)$/.test(con.effectiveType ?? ''));
     const rotulo = (tocando: boolean) => { btn.textContent = tocando ? 'Pausar vídeo' : 'Reproduzir vídeo'; };
-    const tocar = () => v.play().then(() => rotulo(true)).catch(() => rotulo(false));
-    if (reduzMovimento || poupar) rotulo(false); else tocar();
+
+    // escolhe o arquivo: 480p em tela pequena; WebM se o navegador toca VP9, senão MP4
+    const carregar = () => {
+      if (v.getAttribute('src')) return;
+      const d = v.dataset;
+      const pequeno = matchMedia('(max-width: 61.99rem)').matches;
+      const webm = v.canPlayType('video/webm; codecs="vp9"') !== '';
+      const ordem = pequeno
+        ? (webm ? [d.smWebm, d.smMp4, d.webm, d.mp4] : [d.smMp4, d.smWebm, d.mp4, d.webm])
+        : (webm ? [d.webm, d.mp4, d.smWebm, d.smMp4] : [d.mp4, d.webm, d.smMp4, d.smWebm]);
+      const url = ordem.find(Boolean);
+      if (url) { v.src = url; v.load(); }
+    };
+    const tocar = () => { carregar(); return v.play().then(() => rotulo(true)).catch(() => rotulo(false)); };
+
+    if (reduzMovimento || poupar) rotulo(false);
+    else {
+      // só depois de a página (texto, fontes e fotos) terminar de carregar
+      const quandoOcioso = () => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(tocar, { timeout: 2500 }) : setTimeout(tocar, 400));
+      if (document.readyState === 'complete') quandoOcioso(); else addEventListener('load', quandoOcioso, { once: true });
+    }
     btn.addEventListener('click', () => { if (v.paused) tocar(); else { v.pause(); rotulo(false); } });
   }
 </script>

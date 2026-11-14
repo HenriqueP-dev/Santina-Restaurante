@@ -102,7 +102,7 @@ Alterna **preto → branco → creme → branco → preto → creme → branco �
 A pedido do cliente, **todos os espaços de foto estão preenchidos** com imagens de banco (vídeo da abertura, história, experiência, ambiente e uma imagem por categoria do cardápio). Como nenhuma é do Santina, cada uma traz a etiqueta visível "Imagem ilustrativa, não é o Santina" (nos pratos: "não é um prato do Santina"), e as legendas das fotos de pratos mostram só a categoria e a contagem, nunca o nome de um prato, para não sugerir que aquela foto é aquele prato. O crédito está em `CREDITOS.md`. O componente `Quadro` continua aceitando o espaço reservado quando não há imagem. Marcas, letreiros e pessoas identificáveis são motivo para descartar a imagem.
 
 ## 7. Movimento
-GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros que se abrem por máscara. Só `opacity` e `transform`. Desligado com "reduzir movimento" (o conteúdo já aparece).
+Sem biblioteca: `src/scripts/movimento.ts` (IntersectionObserver) coloca a classe `.on`, e as transições estão em `global.css`. Entrada do fundo e do texto da abertura, revelações ao rolar, foto que assenta de 1,06 para 1 dentro da moldura. Só `opacity` e `transform`. Desligado com "reduzir movimento" (o conteúdo já aparece).
 
 ## 8. Inconsistências encontradas no projeto herdado do modelo de hotel (e como foram resolvidas)
 
@@ -126,3 +126,13 @@ GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros q
 - O aviso "a história entra quando o Santina confirmar" saiu da página; a pendência continua em `PENDENCIAS.md`.
 - Abertura (versão atual): vídeo em tela cheia, mas sem véu uniforme. Um degradê escurece só o lado do texto (88% a 70%) e deixa o resto do vídeo claro; o contorno da placa da logo, em linha fina, emoldura a cena; o texto fica centralizado na vertical, não colado embaixo. A tentativa anterior (palco preto com o vídeo numa janela) foi descartada a pedido. No celular o degradê vai de baixo para cima e o botão de pausa fica abaixo da etiqueta.
 - Foto da fachada: reexportada do original do Pexels já cortada em 4:5 (1100 px, qualidade 64, 237 KB; antes 649 KB) e com versão de 640 px (96 KB) por `srcset` para o celular.
+
+## Desempenho (rodada de otimização)
+
+Medido com CPU 4x mais lenta, antes e depois (bytes sem compressão do servidor): home no desktop 1905 para 692 KB, no celular 2044 para 855 KB, cardápio 515 para 183 KB (desktop) e 235 KB (celular).
+
+- **Fotos:** `scripts/otimizar-fotos.mjs` gera AVIF em 480/800/1280 px; `Quadro.astro` monta `<picture>` com `srcset` e `sizes` e deixa o webp como reserva. Nenhuma foto é ampliada.
+- **Vídeo:** 720p (WebM 329 KB) e 480p para celular (194 KB), MP4 de reserva; capa em WebP de 42 KB. O vídeo não é baixado no carregamento: só depois do evento `load`, e nunca com economia de dados ou "reduzir movimento". CRF escolhido comparando quadros com o original (a imagem de origem já era suave).
+- **Logo:** o PNG oficial segue intacto (mesmos bytes). O site serve ao lado um WebP **sem perda**, idêntico pixel a pixel (conferido), 27 KB contra 64 KB.
+- **JS:** GSAP e ScrollTrigger (112 KB) removidos. Fontes do topo com `preload`; itálico não usado removido.
+- **Cache:** `vercel.json` com cache de 1 dia (+7 de revalidação) para fotos, vídeos e logo. Curto de propósito: quando entrarem as fotos reais com o mesmo nome, aparecem em até um dia.

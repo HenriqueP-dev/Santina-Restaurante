@@ -1,7 +1,7 @@
 # Santina Restaurante (site em desenvolvimento)
 
 Site institucional do Santina Restaurante, Barretos (SP). **Projeto conceitual**, sem vínculo oficial até o restaurante confirmar os dados.
-Astro estático, CSS próprio e GSAP.
+Astro estático e CSS próprio, sem biblioteca de JavaScript no cliente (o movimento é IntersectionObserver + transições de CSS).
 
 ## Documentos
 - [`PRODUCT.md`](PRODUCT.md): quem é o restaurante, o que o site precisa fazer, o que não pode inventar.
@@ -13,7 +13,8 @@ Astro estático, CSS próprio e GSAP.
 - Conteúdo (dados, cardápio, textos): `src/conteudo/santina.ts` (formato em `tipos.ts`).
 - Cores e fontes: `src/styles/tema.css`. Estrutura e componentes de estilo: `src/styles/global.css`.
 - Páginas: `src/pages/index.astro` (home) e `src/pages/cardapio/index.astro`.
-- Fotos: cada `Quadro.astro` é um espaço reservado. Para pôr a foto: `<Quadro foto="/fotos/arquivo.webp" alt="..." rotulo="..." />` (arquivos em `public/fotos/`).
+- Fotos: cada `Quadro.astro` é um espaço reservado. Para pôr a foto: `<Quadro foto="/fotos/arquivo.webp" alt="..." rotulo="..." />` (arquivos em `public/fotos/`). Depois de trocar ou adicionar fotos, rode `node scripts/otimizar-fotos.mjs`: ele gera as variantes AVIF leves (480, 800 e 1280 px) e o `Quadro` passa a usá-las sozinho. Se tiver o original em alta, ponha em `fotos-originais/nome.jpg` (fica só no seu computador) e o script parte dele.
+- Vídeo da abertura: `scripts/preparar-video.sh original.mp4 início duração` gera as versões de 720p e 480p e a capa. O site só baixa o vídeo depois que a página carrega.
 
 ## Rodar
 ```bash

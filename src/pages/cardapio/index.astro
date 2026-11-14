@@ -28,7 +28,7 @@ const plural = (n: number) => `${n} ${n === 1 ? 'prato' : 'pratos'}`;
         <div class="cat__lado" data-revelar>
           <h2 id={`h-${c.id}`}>{c.nome}</h2>
           <p class="cat__n tracado num-sans">{plural(c.pratos.length)}</p>
-          <Quadro rotulo={t.quadro} foto={c.foto?.src} alt={c.foto?.alt} posicao={c.foto?.posicao} ilustrativa={c.foto ? t.etiqueta : undefined} proporcao="3 / 2" />
+          <Quadro rotulo={t.quadro} foto={c.foto?.src} alt={c.foto?.alt} posicao={c.foto?.posicao} sizes="(min-width: 62rem) 34vw, 92vw" ilustrativa={c.foto ? t.etiqueta : undefined} proporcao="3 / 2" />
         </div>
         <ul class="pratos">
           {c.pratos.map((p) => (

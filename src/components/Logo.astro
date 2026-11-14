@@ -8,13 +8,17 @@ import { negocio } from '../conteudo/ativo';
 interface Props { largura?: string }
 const { largura = '10rem' } = Astro.props;
 const temLogo = existsSync(join(process.cwd(), 'public', negocio.logo));
+// Versão WebP SEM PERDA (pixels idênticos ao PNG oficial, conferido): mais leve; o PNG segue como fallback.
+const logoWebp = negocio.logo.replace(/\.png$/, '.webp');
+const temWebp = logoWebp !== negocio.logo && existsSync(join(process.cwd(), 'public', logoWebp));
 ---
 {temLogo
-  ? <span class="logo" style={`--w:${largura}`}><img src={negocio.logo} alt={negocio.logoAlt} width="500" height="500" decoding="async" /></span>
+  ? <span class="logo" style={`--w:${largura}`}><picture>{temWebp && <source srcset={logoWebp} type="image/webp" />}<img src={negocio.logo} alt={negocio.logoAlt} width="500" height="500" decoding="async" /></picture></span>
   : <span class="logo logo--texto">{negocio.nome}</span>}
 <style>
   /* conteúdo da logo: x 24 a 475, y 182 a 363 (de 500). Janela com 6 px de folga: 464 x 193. */
   .logo { position: relative; display: block; width: var(--w); aspect-ratio: 464 / 193; overflow: hidden; background: var(--preto); }
+  .logo picture { display: contents; }
   .logo img { position: absolute; max-width: none; height: auto; width: calc(500 / 464 * 100%); left: calc(-18 / 464 * 100%); top: calc(-176 / 193 * 100%); }
   .logo--texto { aspect-ratio: auto; width: auto; color: var(--branco); font: 400 1.5rem/1.1 var(--f-titulo); }
 </style>

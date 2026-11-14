@@ -12,7 +12,7 @@ Usada só onde não afirma nada sobre o restaurante, e sempre com a etiqueta vis
 
 | Arquivo | Onde aparece | Origem (link) | Autor | Licença | Provisório? |
 |---|---|---|---|---|---|
-| `public/videos/hero.mp4`, `hero.webm`, `hero-poster.jpg` | Abertura da home | https://mixkit.co/free-stock-video/classically-styled-restaurant-4195/ ("Classically styled restaurant", clipe 4195) | Não informado na página do clipe | Mixkit Stock Video Free License (página mostra a licença **Free**, conferida em 14/11/2026): uso comercial e não comercial, modificação permitida, crédito não obrigatório | **Sim**, até o vídeo do restaurante |
+| `public/videos/hero.mp4`, `hero.webm`, `hero-sm.mp4`, `hero-sm.webm`, `hero-poster.webp` | Abertura da home | https://mixkit.co/free-stock-video/classically-styled-restaurant-4195/ ("Classically styled restaurant", clipe 4195) | Não informado na página do clipe | Mixkit Stock Video Free License (página mostra a licença **Free**, conferida em 14/11/2026): uso comercial e não comercial, modificação permitida, crédito não obrigatório | **Sim**, até o vídeo do restaurante |
 | `public/fotos/ambiente-salao-mesas-postas.webp` | O ambiente | https://www.pexels.com/photo/set-tables-in-an-empty-restaurant-12688961/ | Vidal Balielo Jr. | Pexels License (uso gratuito, inclusive comercial) | **Sim** |
 | `public/fotos/ambiente-mesa-a-luz-de-velas.webp` | O ambiente | https://www.pexels.com/photo/table-in-an-elegant-restaurant-19569909/ | Zişan Özdemir | Pexels License | **Sim** |
 | `public/fotos/ambiente-tacas-e-mesa-branca.webp` | O ambiente | https://www.pexels.com/photo/wine-glasses-on-table-10445929/ | Anastasia Lashkevich | Pexels License | **Sim** |
@@ -31,3 +31,5 @@ Como o vídeo foi preparado: original Full HD de 74 s; recorte de 18 s (a partir
 Fotos descartadas por mostrar marca (letreiro luminoso, rótulo de garrafa) ou pessoas identificáveis.
 
 **Nenhuma foto ou vídeo é do Santina.** Todos os espaços de foto estão preenchidos com imagens de banco, cada uma com a etiqueta visível "Imagem ilustrativa, não é o Santina" (ou "não é um prato do Santina"). Quando o restaurante enviar o material, cada imagem é trocada. Cada foto nova entra aqui com origem, autor e licença, e só vai ao site público com autorização do restaurante.
+
+As variantes `-480/-800/-1280.avif` em `public/fotos/` são versões reduzidas das mesmas fotos (mesma fonte e licença da linha de cada uma).
