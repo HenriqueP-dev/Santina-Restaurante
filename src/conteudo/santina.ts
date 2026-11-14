@@ -143,7 +143,7 @@ export const textos: Textos = {
       'Casais, famílias e grupos encontram aqui um ambiente pensado para uma refeição com calma e para comemorar.',
     ],
     etiqueta: 'Imagem ilustrativa, não é o Santina',
-    fachada: { rotulo: 'Foto da fachada do casarão (vertical, 4:5)', foto: '/fotos/historia-fachada.webp', alt: 'Fachada de um casarão histórico com janelas em arco, vista de baixo.' },
+    fachada: { rotulo: 'Foto da fachada do casarão (vertical, 4:5)', foto: '/fotos/historia-fachada.webp', srcset: '/fotos/historia-fachada-640.webp 640w, /fotos/historia-fachada.webp 1100w', alt: 'Fachada de um casarão histórico com janelas em arco, vista de baixo.' },
     interior: { rotulo: 'Foto do interior do salão (horizontal, 3:2)', foto: '/fotos/historia-salao.webp', alt: 'Salão de restaurante à noite, com mesas postas e taças, visto pela vidraça.' },
   },
   experiencia: {

@@ -10,23 +10,21 @@ const cat = (id: string) => cardapio.find((c) => c.id === id)!;
 const t = textos;
 ---
 <Base>
-  <!-- ABERTURA: palco preto. Texto direto sobre o preto (sem véu); o vídeo vai numa janela com o contorno da placa da logo -->
+  <!-- ABERTURA: vídeo em tela cheia. O degradê escurece só o lado do texto; o contorno da placa da logo emoldura a cena -->
   <section class="hero sec--escura" aria-labelledby="h-hero">
-    <div class="container hero__grade">
-      <div class="hero__conteudo">
-        <h1 id="h-hero" data-hero-item>{t.hero.titulo}</h1>
-        <p class="lead" data-hero-item>{t.hero.lead}</p>
-        <div class="hero__acoes" data-hero-item>
-          <a class="btn btn--verde" href="#reservas">{t.hero.reservar}</a>
-          <a class="btn btn--linha" href="/cardapio/">{t.hero.cardapio}</a>
-        </div>
-      </div>
-      <div class="hero__janela placa" data-hero-quadro>
-        <div class="hero__midia">
-          {temVideoHero
-            ? <><HeroVideo /><p class="hero__legenda">{t.hero.legendaVideo}</p></>
-            : <Quadro rotulo={t.hero.quadro} proporcao="auto" />}
-        </div>
+    <div class="hero__fundo" data-hero-quadro>
+      {temVideoHero
+        ? <><HeroVideo /><p class="hero__legenda">{t.hero.legendaVideo}</p></>
+        : <Quadro rotulo={t.hero.quadro} proporcao="auto" />}
+    </div>
+    <div class="hero__veu" aria-hidden="true"></div>
+    <div class="hero__placa placa" aria-hidden="true"></div>
+    <div class="container hero__conteudo">
+      <h1 id="h-hero" data-hero-item>{t.hero.titulo}</h1>
+      <p class="lead" data-hero-item>{t.hero.lead}</p>
+      <div class="hero__acoes" data-hero-item>
+        <a class="btn btn--verde" href="#reservas">{t.hero.reservar}</a>
+        <a class="btn btn--linha" href="/cardapio/">{t.hero.cardapio}</a>
       </div>
     </div>
   </section>
@@ -34,7 +32,7 @@ const t = textos;
   <!-- NOSSA HISTÓRIA -->
   <section class="section sec--ampla" id="historia" aria-labelledby="h-hist">
     <div class="container hist">
-      <div class="hist__foto" data-revelar><Quadro rotulo={t.historia.fachada.rotulo} foto={t.historia.fachada.foto} alt={t.historia.fachada.alt} ilustrativa={t.historia.fachada.foto ? t.historia.etiqueta : undefined} proporcao="4 / 5" /></div>
+      <div class="hist__foto" data-revelar><Quadro rotulo={t.historia.fachada.rotulo} foto={t.historia.fachada.foto} srcset={t.historia.fachada.srcset} sizes="(min-width: 62rem) 42vw, 92vw" alt={t.historia.fachada.alt} ilustrativa={t.historia.fachada.foto ? t.historia.etiqueta : undefined} proporcao="4 / 5" /></div>
       <div class="hist__txt" data-revelar>
         <h2 id="h-hist">{t.historia.titulo}</h2>
         {t.historia.texto.map((p) => <p class="lead">{p}</p>)}
@@ -137,20 +135,26 @@ const t = textos;
 
 <style>
   /* ---------- abertura ---------- */
-  .hero { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 6vw, 5rem); }
-  .hero__grade { display: grid; gap: 2.25rem; align-items: center; }
-  .hero__conteudo { display: grid; gap: 1.5rem; justify-items: start; }
-  .hero h1 { max-width: 20ch; font-size: clamp(2.5rem, 1.3rem + 3.2vw, 4rem); line-height: 1.04; }
-  .hero .lead { margin: 0; max-width: 36ch; color: var(--claro-sobre-preto); }
+  .hero { --hero-moldura: clamp(.7rem, 1.8vw, 1.4rem); position: relative; display: grid; align-items: center; min-height: max(36rem, calc(100svh - 7.5rem)); overflow: hidden; }
+  .hero__fundo { position: absolute; inset: 0; --hv-pad: calc(var(--hero-moldura) + 1.1rem); }
+  .hero__fundo :global(.quadro) { position: absolute; inset: 0; height: 100%; border-radius: 0; aspect-ratio: auto !important; }
+  .hero__fundo :global(.quadro__in) { place-content: start end; justify-items: end; text-align: right; padding: 2rem 2.2rem; }
+  .hero__fundo :global(.quadro__t) { max-width: 30ch; font-size: 1rem; }
+  .hero__legenda { position: absolute; z-index: 3; left: calc(var(--hero-moldura) + 1.1rem); top: calc(var(--hero-moldura) + 1.1rem); margin: 0; padding: .4rem .7rem; background: rgb(0 0 0 / .72); color: var(--branco); font-size: .75rem; font-weight: 600; letter-spacing: .02em; line-height: 1.2; border-radius: var(--raio); max-width: calc(100% - 2 * var(--hero-moldura) - 2.2rem); }
+  /* degradê só atrás do texto (lado esquerdo) e na base; o resto do vídeo fica claro */
+  .hero__veu { position: absolute; inset: 0; background:
+    linear-gradient(90deg, rgb(0 0 0 / .88) 0%, rgb(0 0 0 / .7) 42%, rgb(0 0 0 / .22) 74%, rgb(0 0 0 / .08) 100%),
+    linear-gradient(to top, rgb(0 0 0 / .55), transparent 40%); }
+  /* a placa da logo como moldura fina sobre a cena */
+  .hero__placa { position: absolute; z-index: 2; inset: var(--hero-moldura); --placa-borda: clamp(1rem, 2.4vw, 1.9rem); pointer-events: none; }
+  .hero__conteudo { position: relative; z-index: 1; padding-block: calc(var(--hero-moldura) + 3.25rem); display: grid; gap: 1.5rem; justify-items: start; }
+  .hero h1 { max-width: 18ch; font-size: clamp(2.5rem, 1.3rem + 3.6vw, 4.5rem); line-height: 1.03; }
+  .hero .lead { margin: 0; max-width: 36ch; color: rgb(255 255 255 / .92); }
   .hero__acoes { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: .5rem; }
-  .hero__janela { --placa-borda: clamp(1.1rem, 3vw, 1.9rem); min-width: 0; }
-  .hero__midia { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--raio); background: var(--tinta); }
-  .hero__midia :global(.quadro) { position: absolute; inset: 0; height: 100%; border-radius: 0; aspect-ratio: auto !important; }
-  .hero__midia :global(.quadro__in) { padding: 2rem 1.6rem; }
-  .hero__legenda { position: absolute; z-index: 2; left: .75rem; top: .75rem; margin: 0; padding: .4rem .7rem; background: rgb(0 0 0 / .72); color: var(--branco); font-size: .75rem; font-weight: 600; letter-spacing: .02em; line-height: 1.2; border-radius: var(--raio); max-width: calc(100% - 1.5rem); }
-  @media (min-width: 62rem) {
-    .hero { min-height: max(34rem, calc(100svh - 7.5rem)); display: grid; align-items: center; }
-    .hero__grade { grid-template-columns: 6fr 7fr; gap: clamp(2.5rem, 4.5vw, 4.5rem); }
+  @media (max-width: 61.99rem) {
+    .hero { min-height: max(34rem, calc(100svh - 12.5rem)); align-items: end; }
+    .hero__veu { background: linear-gradient(to top, rgb(0 0 0 / .9), rgb(0 0 0 / .72) 55%, rgb(0 0 0 / .3)); }
+    .hero__conteudo { padding-block: calc(var(--hero-moldura) + 5rem) calc(var(--hero-moldura) + 2.25rem); }
   }
 
   /* ritmo: as seções não têm a mesma altura nem a mesma composição */

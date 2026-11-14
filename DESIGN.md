@@ -124,4 +124,5 @@ GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros q
 
 - Sorts Mill Goudy tem algarismos antigos, que deixavam o telefone ilegível. Números de contato, contagens e a nota usam Manrope com algarismos tabulares (`.num-sans`).
 - O aviso "a história entra quando o Santina confirmar" saiu da página; a pendência continua em `PENDENCIAS.md`.
-- Abertura: era vídeo em tela cheia com véu escuro e título embaixo à esquerda (fórmula comum) e o clipe de banco, de baixa definição, ficava esticado e turvo. Agora é um palco preto: título e botões direto sobre o preto (contraste máximo, sem véu) e o vídeo numa janela com o contorno da placa. No celular o texto vem primeiro e o vídeo aparece logo abaixo.
+- Abertura (versão atual): vídeo em tela cheia, mas sem véu uniforme. Um degradê escurece só o lado do texto (88% a 70%) e deixa o resto do vídeo claro; o contorno da placa da logo, em linha fina, emoldura a cena; o texto fica centralizado na vertical, não colado embaixo. A tentativa anterior (palco preto com o vídeo numa janela) foi descartada a pedido. No celular o degradê vai de baixo para cima e o botão de pausa fica abaixo da etiqueta.
+- Foto da fachada: reexportada do original do Pexels já cortada em 4:5 (1100 px, qualidade 64, 237 KB; antes 649 KB) e com versão de 640 px (96 KB) por `srcset` para o celular.

@@ -31,7 +31,7 @@ export interface Textos {
   aviso: string;                // faixa do topo; '' = sem faixa
   rodapeNota: string;
   hero: { titulo: string; lead: string; cardapio: string; reservar: string; quadro: string; legendaVideo: string };
-  historia: { titulo: string; texto: string[]; etiqueta: string; fachada: { rotulo: string; foto?: string; alt?: string }; interior: { rotulo: string; foto?: string; alt?: string } };
+  historia: { titulo: string; texto: string[]; etiqueta: string; fachada: { rotulo: string; foto?: string; alt?: string; srcset?: string }; interior: { rotulo: string; foto?: string; alt?: string } };
   experiencia: { titulo: string; lead: string; destaques: { categoriaId: string; foto?: string; alt?: string; posicao?: string }[]; extras: string; botao: string };
   ambiente: { titulo: string; lead: string; etiqueta: string; quadros: { rotulo: string; foto?: string; alt?: string }[] };
   avaliacoes: { tituloLeitor: string; nota: string };

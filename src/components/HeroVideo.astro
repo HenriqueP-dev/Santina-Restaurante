@@ -27,11 +27,12 @@ import { temWebm, temMp4, temPosterHero } from '../lib/midia';
 <style>
   .hv__v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .hv__btn {
-    position: absolute; z-index: 2; right: .75rem; bottom: .75rem;
+    position: absolute; z-index: 2; right: var(--hv-pad, .75rem); bottom: var(--hv-pad, .75rem);
     min-height: 2.75rem; padding: .55rem 1.1rem; border: 1px solid rgb(255 255 255 / .6); border-radius: var(--raio); cursor: pointer;
     background: rgb(0 0 0 / .55); color: var(--branco);
     font: 600 var(--t-mini) / 1 var(--f-texto); letter-spacing: .18em; text-transform: uppercase;
     transition: background-color .3s var(--ease), color .3s var(--ease);
   }
+  @media (max-width: 61.99rem) { .hv__btn { top: calc(var(--hv-pad, .75rem) + 2.9rem); bottom: auto; } }
   @media (hover: hover) { .hv__btn:hover { background: var(--branco); color: var(--preto); } }
 </style>
