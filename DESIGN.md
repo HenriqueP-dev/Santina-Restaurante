@@ -94,7 +94,7 @@ Alterna **preto → branco → creme → branco → preto → creme → branco �
 | Rodapé | preto, logo maior, endereço, telefone, Instagram |
 
 ## 6b. Mídia ilustrativa (regra)
-Imagem de banco **nunca** representa o que é só do Santina: fachada, interior do salão e pratos continuam em quadro até haver foto real. Quando há imagem de banco (vídeo da abertura, seção "O ambiente"), ela traz a etiqueta visível "Imagem ilustrativa, não é o Santina" e o crédito está em `CREDITOS.md`. Marcas, letreiros e pessoas identificáveis são motivo para descartar a imagem.
+A pedido do cliente, **todos os espaços de foto estão preenchidos** com imagens de banco (vídeo da abertura, história, experiência, ambiente e uma imagem por categoria do cardápio). Como nenhuma é do Santina, cada uma traz a etiqueta visível "Imagem ilustrativa, não é o Santina" (nos pratos: "não é um prato do Santina"), e as legendas das fotos de pratos mostram só a categoria e a contagem, nunca o nome de um prato, para não sugerir que aquela foto é aquele prato. O crédito está em `CREDITOS.md`. O componente `Quadro` continua aceitando o espaço reservado quando não há imagem. Marcas, letreiros e pessoas identificáveis são motivo para descartar a imagem.
 
 ## 7. Movimento
 GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros que se abrem por máscara. Só `opacity` e `transform`. Desligado com "reduzir movimento" (o conteúdo já aparece).

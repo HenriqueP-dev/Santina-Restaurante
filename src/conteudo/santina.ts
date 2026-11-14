@@ -35,6 +35,7 @@ export const servicos: Servico[] = [
 export const cardapio: Categoria[] = [
   {
     id: 'entradas', nome: 'Entradas',
+    foto: { src: '/fotos/prato-entrada.webp', alt: 'Três torradas com cobertura de queijo, presunto e tomate em um prato branco.' },
     pratos: [
       { nome: 'Bruschetta de Parma', descricao: 'Pão italiano tipo torrada com cream cheese, cebola caramelizada, parma fatiado, amêndoas laminadas e cebolinha.' },
       { nome: 'Isca Santina', descricao: 'Ancho grelhado com cebola e tomate-cereja.' },
@@ -44,6 +45,7 @@ export const cardapio: Categoria[] = [
   },
   {
     id: 'massas', nome: 'Massas',
+    foto: { src: '/fotos/prato-massas.webp', alt: 'Prato de fettuccine cremoso em um prato de cerâmica, visto de cima.' },
     pratos: [
       { nome: 'Fettuccine ao Pomodoro', descricao: 'Massa artesanal acompanhada de molho pomodoro fresco e folhas de manjericão, com parmesão e queijo tipo grana ralado.' },
       { nome: 'Fettuccine ao Molho Funghi', descricao: 'Macarrão tipo fettuccine ao molho de funghi porcini.' },
@@ -54,6 +56,7 @@ export const cardapio: Categoria[] = [
   },
   {
     id: 'carnes-e-aves', nome: 'Carnes e aves',
+    foto: { src: '/fotos/prato-carnes.webp', alt: 'Medalhão de carne grelhado com folhas verdes em um prato escuro.' },
     pratos: [
       { nome: 'Bife Ancho com Risoto de Três Queijos', descricao: 'Bife ancho de Angus grelhado na manteiga de ervas com risoto de três queijos (gorgonzola, parmesão e grana padano).' },
       { nome: 'Filé de Angus com Legumes', descricao: 'Filé mignon Angus grelhado na manteiga de ervas com legumes (batata, cenoura, palmito e ervilha fresca).' },
@@ -69,6 +72,7 @@ export const cardapio: Categoria[] = [
   },
   {
     id: 'peixes-e-frutos-do-mar', nome: 'Peixes e frutos do mar',
+    foto: { src: '/fotos/prato-peixes.webp', alt: 'Filé de salmão grelhado com uma folha verde sobre um prato branco.' },
     pratos: [
       { nome: 'Bacalhau à Lagareiro', descricao: 'Bacalhau confitado no azeite, batatas ao murro, pimentões, tomate-cereja e cebola bolinha salteadas no azeite. Acompanha arroz de bacalhau com amêndoas.' },
       { nome: 'Camarão Rosa com Risoto', descricao: 'Camarão pistola grelhado com sal de Chianti, acompanhado de risoto de alho-poró regado com azeite de ervas.' },
@@ -81,6 +85,7 @@ export const cardapio: Categoria[] = [
   },
   {
     id: 'risotos', nome: 'Risotos',
+    foto: { src: '/fotos/prato-risoto.webp', alt: 'Arroz cremoso com ervilhas em uma tigela de cerâmica, com limões ao lado.' },
     pratos: [
       { nome: 'Risoto de Três Queijos' },
       { nome: 'Risoto de Limão-Siciliano' },
@@ -90,6 +95,7 @@ export const cardapio: Categoria[] = [
   },
   {
     id: 'sobremesas', nome: 'Sobremesas',
+    foto: { src: '/fotos/prato-sobremesa.webp', alt: 'Sobremesa cremosa branca com calda de frutas vermelhas em um prato branco.' },
     pratos: [
       { nome: 'Brownie com Sorvete de Creme', descricao: 'Bolo tipo brownie de chocolate. Acompanha sorvete de baunilha e calda de chocolate.' },
       { nome: 'Gelato de Doce de Leite', descricao: 'Gelato feito com doce de leite artesanal e flocos de nozes.' },
@@ -136,17 +142,18 @@ export const textos: Textos = {
       'Casais, famílias e grupos encontram aqui um ambiente pensado para uma refeição com calma e para comemorar.',
     ],
     pendente: 'A história do casarão e do restaurante entra aqui quando o Santina confirmar o texto.',
-    quadroFachada: 'Foto da fachada do casarão (vertical, 4:5)',
-    quadroInterior: 'Foto do interior do salão (horizontal, 3:2)',
+    etiqueta: 'Imagem ilustrativa, não é o Santina',
+    fachada: { rotulo: 'Foto da fachada do casarão (vertical, 4:5)', foto: '/fotos/historia-fachada.webp', alt: 'Fachada de um casarão histórico com janelas em arco, vista de baixo.' },
+    interior: { rotulo: 'Foto do interior do salão (horizontal, 3:2)', foto: '/fotos/historia-salao.webp', alt: 'Salão de restaurante à noite, com mesas postas e taças, visto pela vidraça.' },
   },
   experiencia: {
     rotulo: 'Experiência gastronômica',
     titulo: 'Massas, carnes, risotos e frutos do mar.',
     lead: 'O cardápio reúne entradas, massas, carnes e aves, peixes e frutos do mar, risotos e sobremesas.',
     destaques: [
-      { quadro: 'Foto do prato (vertical, 4:5)', categoria: 'Massas', prato: 'Fettuccine à Carbonara' },
-      { quadro: 'Foto do prato (horizontal, 3:2)', categoria: 'Carnes e aves', prato: 'Bife Ancho com Risoto de Três Queijos' },
-      { quadro: 'Foto do prato (vertical, 4:5)', categoria: 'Sobremesas', prato: 'Panna Cotta' },
+      { categoriaId: 'massas', foto: '/fotos/prato-massas.webp', alt: 'Prato de fettuccine cremoso em um prato de cerâmica sobre mesa de madeira, visto de cima.', posicao: '50% 45%' },
+      { categoriaId: 'carnes-e-aves', foto: '/fotos/prato-carnes.webp', alt: 'Medalhão de carne grelhado com folhas verdes em um prato escuro.' },
+      { categoriaId: 'sobremesas', foto: '/fotos/prato-sobremesa.webp', alt: 'Sobremesa cremosa branca com calda de frutas vermelhas em um prato branco.', posicao: '52% 55%' },
     ],
     extras: 'Há também carta de vinhos e drinks.',
     botao: 'Ver o cardápio completo',
@@ -185,7 +192,7 @@ export const textos: Textos = {
     titulo: 'Cardápio',
     lead: 'Entradas, massas, carnes e aves, peixes e frutos do mar, risotos e sobremesas.',
     nota: 'Cardápio conforme o material fornecido pelo restaurante. Preços e eventuais mudanças serão confirmados com o Santina.',
-    quadro: 'Foto de um prato desta categoria (horizontal, 21:9)',
-    semDescricao: '',
+    quadro: 'Foto de um prato desta categoria (horizontal, 3:2)',
+    etiqueta: 'Imagem ilustrativa, não é um prato do Santina',
   },
 };

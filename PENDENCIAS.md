@@ -33,8 +33,7 @@ Regra do projeto: **nada inventado**. O site só afirma o que está na documenta
 | Como funciona a entrega sem contato | Só o nome do serviço |
 | Logo em vetor (SVG) ou alta resolução; versão para fundo claro | Arquivo atual: PNG 500 x 500, fundo preto |
 | Paleta oficial refinada (tons de texto verde e vermelho) | Proposta no DESIGN.md |
-| Fotos do Santina: fachada, interior, pratos, bar | **Quadros** com a descrição de cada foto (pratos, fachada e interior só podem ser do restaurante) |
-| Vídeo de abertura e 4 fotos do ambiente | Hoje são de **banco de imagens, ilustrativas**, com etiqueta visível; trocar pelas do Santina |
+| Fotos do Santina: fachada, interior, pratos, bar, ambiente e vídeo de abertura | Hoje **todas** são de banco de imagens, ilustrativas, com etiqueta visível (12 fotos e 1 vídeo, listados em CREDITOS.md). Trocar pelas do restaurante. Pratos, fachada e interior de banco **não** correspondem ao Santina |
 
 ## Para fechar
 1. O restaurante envia fotos, horários, preços (se quiser exibir), links e a logo em vetor.

@@ -4,13 +4,13 @@
  * Troca por foto real: passe `foto="/fotos/arquivo.webp"` e um `alt` que descreva a imagem.
  * A moldura interna lembra, sem copiar, o filete branco da logo.
  */
-interface Props { rotulo: string; foto?: string; alt?: string; proporcao?: string; class?: string; ilustrativa?: string }
+interface Props { rotulo: string; foto?: string; alt?: string; proporcao?: string; class?: string; ilustrativa?: string; posicao?: string }
 // `ilustrativa`: texto da etiqueta quando a imagem é de banco e NÃO mostra o restaurante (nunca esconda isso).
-const { rotulo, foto, alt = '', proporcao = '3 / 2', class: cls, ilustrativa } = Astro.props;
+const { rotulo, foto, alt = '', proporcao = '3 / 2', class: cls, ilustrativa, posicao = '50% 50%' } = Astro.props;
 ---
 <figure class:list={['quadro', cls]} style={`aspect-ratio:${proporcao}`} data-revelar-foto>
   {foto
-    ? <><img src={foto} alt={alt} loading="lazy" decoding="async" />{ilustrativa && <figcaption class="quadro__etq">{ilustrativa}</figcaption>}</>
+    ? <><img src={foto} alt={alt} loading="lazy" decoding="async" style={`object-position:${posicao}`} />{ilustrativa && <figcaption class="quadro__etq">{ilustrativa}</figcaption>}</>
     : <div class="quadro__in">
         <span class="quadro__k">Foto a enviar</span>
         <span class="quadro__t">{rotulo}</span>

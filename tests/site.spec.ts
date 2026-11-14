@@ -94,16 +94,33 @@ test.describe('conteúdo fiel à documentação do restaurante', () => {
     expect(t).not.toMatch(/R\$|80 a|\b100\b/);
     expect(t).toContain('em confirmação'); // horários assumidos como pendentes
   });
-  test('todo quadro de foto diz o que vai nele', async ({ page }) => {
-    await page.goto('/');
-    const quadros = page.locator('.quadro:not(:has(img))');
-    const n = await quadros.count();
-    expect(n).toBeGreaterThanOrEqual(5); // fachada, interior e 3 pratos: o que só o Santina pode mostrar
-    for (let i = 0; i < n; i++) {
-      const t = (await quadros.nth(i).innerText()).toLowerCase();
-      expect(t).toContain('foto a enviar');
-      expect(t.length).toBeGreaterThan(25);
+  test('toda imagem de banco tem texto alternativo, carrega e diz que é ilustrativa', async ({ page }) => {
+    for (const rota of PAGINAS) {
+      await page.goto(rota);
+      const imgs = page.locator('.quadro img');
+      const n = await imgs.count();
+      expect(n).toBeGreaterThan(0);
+      for (let i = 0; i < n; i++) {
+        await imgs.nth(i).scrollIntoViewIfNeeded();
+        await expect.poll(() => imgs.nth(i).evaluate((e: HTMLImageElement) => e.complete && e.naturalWidth > 0)).toBe(true);
+        expect(((await imgs.nth(i).getAttribute('alt')) ?? '').length, `alt de ${rota} #${i}`).toBeGreaterThan(20);
+      }
+      await expect(page.locator('.quadro .quadro__etq'), rota).toHaveCount(n);
     }
+  });
+  test('nenhum quadro de foto ficou vazio na home nem no cardápio', async ({ page }) => {
+    for (const rota of PAGINAS) {
+      await page.goto(rota);
+      await expect(page.locator('.quadro:not(:has(img))'), rota).toHaveCount(0);
+    }
+  });
+  test('o cardápio tem uma imagem por categoria e a home tem a história, o ambiente e os pratos ilustrados', async ({ page }) => {
+    await page.goto('/cardapio/');
+    await expect(page.locator('.categoria .quadro img')).toHaveCount(cardapio.length);
+    await page.goto('/');
+    await expect(page.locator('#historia .quadro img')).toHaveCount(2);
+    await expect(page.locator('.dest .quadro img')).toHaveCount(textos.experiencia.destaques.length);
+    await expect(page.locator('.amb__grade .quadro img')).toHaveCount(textos.ambiente.quadros.length);
   });
 });
 
@@ -199,11 +216,6 @@ test.describe('mídia ilustrativa de banco', () => {
     }
     await expect(page.locator('.amb__grade .quadro__etq')).toHaveCount(n);
     await expect(page.locator('.amb__grade .quadro__etq').first()).toContainText('ilustrativa');
-  });
-  test('o que só o Santina pode mostrar (fachada, interior, pratos) continua em quadro, sem foto de banco', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.locator('#historia img')).toHaveCount(0);
-    await expect(page.locator('.dest img')).toHaveCount(0);
   });
   test.describe('vídeo da abertura', () => {
     test.skip(!temVideo, 'sem vídeo em public/videos');
