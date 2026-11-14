@@ -29,57 +29,49 @@ const t = textos;
   </section>
 
   <!-- NOSSA HISTÓRIA -->
-  <section class="section" id="historia" aria-labelledby="h-hist">
+  <section class="section sec--ampla" id="historia" aria-labelledby="h-hist">
     <div class="container hist">
       <div class="hist__foto" data-revelar><Quadro rotulo={t.historia.fachada.rotulo} foto={t.historia.fachada.foto} alt={t.historia.fachada.alt} ilustrativa={t.historia.fachada.foto ? t.historia.etiqueta : undefined} proporcao="4 / 5" /></div>
       <div class="hist__txt" data-revelar>
-        <p class="rotulo">{t.historia.rotulo}</p>
         <h2 id="h-hist">{t.historia.titulo}</h2>
-        <span class="filete" aria-hidden="true"></span>
         {t.historia.texto.map((p) => <p class="lead">{p}</p>)}
-        <p class="pendente">{t.historia.pendente}</p>
         <Quadro rotulo={t.historia.interior.rotulo} foto={t.historia.interior.foto} alt={t.historia.interior.alt} ilustrativa={t.historia.interior.foto ? t.historia.etiqueta : undefined} proporcao="3 / 2" />
       </div>
     </div>
   </section>
 
-  <!-- EXPERIÊNCIA GASTRONÔMICA -->
+  <!-- EXPERIÊNCIA GASTRONÔMICA: sumário da carta (índice com contagem) ao lado de três fotos escalonadas -->
   <section class="section sec--creme" aria-labelledby="h-exp">
-    <div class="container">
-      <div class="exp__topo" data-revelar>
-        <div>
-          <p class="rotulo">{t.experiencia.rotulo}</p>
-          <h2 id="h-exp">{t.experiencia.titulo}</h2>
-        </div>
-        <div class="exp__lead">
-          <p class="lead">{t.experiencia.lead}</p>
-          <p class="sec-txt">{t.experiencia.extras}</p>
-          <a class="btn" href="/cardapio/">{t.experiencia.botao}</a>
-        </div>
+    <div class="container exp">
+      <div class="exp__txt" data-revelar>
+        <h2 id="h-exp">{t.experiencia.titulo}</h2>
+        <p class="lead">{t.experiencia.lead}</p>
+        <ol class="carta" aria-label="Categorias do cardápio">
+          {cardapio.map((c) => (
+            <li><a class="carta__l" href={`/cardapio/#${c.id}`}><span class="carta__n">{c.nome}</span><span class="carta__p num-sans">{c.pratos.length} pratos</span></a></li>
+          ))}
+        </ol>
+        <p class="sec-txt exp__extra">{t.experiencia.extras}</p>
+        <a class="btn" href="/cardapio/">{t.experiencia.botao}</a>
       </div>
-      <ul class="exp__trio">
+      <ul class="exp__fotos">
         {t.experiencia.destaques.map((d, i) => (
           <li class={`dest dest--${i + 1}`} data-revelar>
-            <Quadro rotulo={cat(d.categoriaId).nome} foto={d.foto} alt={d.alt} posicao={d.posicao} ilustrativa={d.foto ? textos.cardapio.etiqueta : undefined} proporcao={i === 1 ? '3 / 2' : '4 / 5'} />
-            <p class="dest__cat tracado">{cat(d.categoriaId).nome}</p>
-            <p class="dest__nome"><a class="dest__lnk" href={`/cardapio/#${d.categoriaId}`}>{cat(d.categoriaId).pratos.length} pratos no cardápio</a></p>
+            <Quadro rotulo={cat(d.categoriaId).nome} foto={d.foto} alt={d.alt} posicao={d.posicao} ilustrativa={d.foto ? textos.cardapio.etiqueta : undefined} proporcao={['4 / 5', '3 / 2', '3 / 2'][i]} />
           </li>
         ))}
       </ul>
     </div>
   </section>
 
-  <!-- O AMBIENTE -->
-  <section class="section" aria-labelledby="h-amb">
-    <div class="container">
-      <div class="amb__topo" data-revelar>
-        <p class="rotulo">{t.ambiente.rotulo}</p>
+  <!-- O AMBIENTE: o texto é uma célula do mosaico, não um cabeçalho em cima dele -->
+  <section class="section sec--compacta" aria-labelledby="h-amb">
+    <div class="container amb__grade">
+      <div class="amb__txt" data-revelar>
         <h2 id="h-amb">{t.ambiente.titulo}</h2>
         <p class="lead">{t.ambiente.lead}</p>
       </div>
-      <div class="amb__grade">
-        {t.ambiente.quadros.map((q, i) => <Quadro rotulo={q.rotulo} foto={q.foto} alt={q.alt} ilustrativa={q.foto ? t.ambiente.etiqueta : undefined} proporcao={['3 / 2', '4 / 5', '1 / 1', '3 / 2'][i]} class={`amb__q amb__q--${i + 1}`} />)}
-      </div>
+      {t.ambiente.quadros.map((q, i) => <Quadro rotulo={q.rotulo} foto={q.foto} alt={q.alt} ilustrativa={q.foto ? t.ambiente.etiqueta : undefined} proporcao={['3 / 2', '4 / 5', '1 / 1', '3 / 2'][i]} class={`amb__q amb__q--${i + 1}`} />)}
     </div>
   </section>
 
@@ -87,7 +79,9 @@ const t = textos;
   <section class="section sec--escura av" aria-labelledby="h-av">
     <div class="container av__in">
       <h2 id="h-av" class="sr-only">{t.avaliacoes.tituloLeitor}</h2>
-      <p class="mega num" data-revelar>Nota <span class="mega__nota">{avaliacao.nota}</span> em {avaliacao.total} avaliações no {avaliacao.fonte}.</p>
+      <div class="placa av__placa" data-revelar>
+        <p class="mega">Nota <span class="mega__nota num-sans">{avaliacao.nota}</span> em <span class="num-sans">{avaliacao.total}</span> avaliações no {avaliacao.fonte}.</p>
+      </div>
       <div class="temas" data-revelar>
         {avaliacao.temas.map((tm) => (
           <div class="tema"><h3 class="tema__t tracado">{tm.titulo}</h3><ul>{tm.itens.map((i) => <li>{i}</li>)}</ul></div>
@@ -101,11 +95,10 @@ const t = textos;
   <section class="section sec--creme" id="reservas" aria-labelledby="h-res">
     <div class="container res">
       <div class="res__txt" data-revelar>
-        <p class="rotulo">{t.reservas.rotulo}</p>
         <h2 id="h-res">{t.reservas.titulo}</h2>
         <p class="lead">{t.reservas.lead}</p>
       </div>
-      <div class="res__form" data-revelar><ReservaMesa /></div>
+      <div class="res__form placa" data-revelar><ReservaMesa /></div>
     </div>
   </section>
 
@@ -113,11 +106,14 @@ const t = textos;
   <section class="section" id="local" aria-labelledby="h-loc">
     <div class="container loc">
       <div class="loc__txt" data-revelar>
-        <p class="rotulo">{t.local.rotulo}</p>
-        <h2 id="h-loc">{negocio.endereco}</h2>
+        <div class="lockup">
+          <h2 id="h-loc">{negocio.endereco}</h2>
+          <span class="filete" aria-hidden="true"></span>
+          <p class="tracado loc__desc">{t.local.descritor}</p>
+        </div>
         <address>
-          <p class="lead">{negocio.bairro}, {negocio.cidade}, {negocio.uf}<br />CEP {negocio.cep}</p>
-          <a class="loc__tel num" href={negocio.telefoneLink}>{negocio.telefone}</a>
+          <p class="lead">CEP {negocio.cep}</p>
+          <a class="loc__tel num-sans" href={negocio.telefoneLink}>{negocio.telefone}</a>
           <div class="loc__acoes">
             <a class="btn btn--linha" href={negocio.mapaLink} target="_blank" rel="noopener">{t.local.mapa}<span class="sr-only"> (abre em nova aba)</span></a>
             <a class="link" href={negocio.instagramUrl} target="_blank" rel="noopener">Instagram {negocio.instagram}<span class="sr-only"> (abre em nova aba)</span></a>
@@ -146,70 +142,86 @@ const t = textos;
   .hero__legenda { position: absolute; z-index: 2; left: var(--gutter); top: 1rem; margin: 0; padding: .4rem .7rem; background: rgb(0 0 0 / .65); color: var(--branco); font-size: .75rem; font-weight: 600; letter-spacing: .02em; line-height: 1.2; border-radius: var(--raio); max-width: none; }
   .hero__veu { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / .86), rgb(0 0 0 / .45) 55%, rgb(0 0 0 / .1)); }
   .hero__conteudo { position: relative; z-index: 1; padding-block: 3rem clamp(3rem, 6vw, 4.75rem); display: grid; gap: 1.4rem; justify-items: start; }
-  .hero h1 { max-width: 19ch; }
+  .hero h1 { max-width: 22ch; }
   .hero .lead { margin: 0; max-width: 40ch; color: rgb(255 255 255 / .92); }
   .hero__acoes { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: .4rem; }
   @media (max-width: 61.99rem) { .hero { min-height: max(32rem, calc(100svh - 12.5rem)); } }
 
-  /* ---------- história ---------- */
+  /* ritmo: as seções não têm a mesma altura nem a mesma composição */
+  .sec--ampla { padding-block: clamp(5.5rem, 11vw, 10.5rem); }
+  .sec--compacta { padding-block: clamp(3.5rem, 7vw, 6rem); }
+
+  /* ---------- história: foto alta fixa, texto longo e uma segunda foto larga ---------- */
   .hist { display: grid; gap: 2.5rem; align-items: start; }
-  .hist__txt { display: grid; gap: 1.1rem; justify-items: start; }
+  .hist__txt { display: grid; gap: 1.4rem; justify-items: start; }
+  .hist__txt h2 { font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4.5rem); max-width: 14ch; }
   .hist__txt .lead { margin: 0; }
-  .hist__txt :global(.quadro) { width: 100%; margin-top: 1rem; }
-  .hist__txt .filete { margin: .25rem 0 .4rem; }
-  .pendente { margin: .2rem 0 0; padding: .7rem 1rem; border-left: 3px solid var(--vermelho); font-size: .9rem; color: var(--texto-2); }
+  .hist__txt :global(.quadro) { width: 100%; margin-top: 1.25rem; }
   @media (min-width: 62rem) { .hist { grid-template-columns: 5fr 6fr; gap: 6rem; } .hist__foto { position: sticky; top: calc(var(--hd-h) + 2rem); } }
 
-  /* ---------- experiência ---------- */
-  .exp__topo { display: grid; gap: 1.75rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-  .exp__lead { display: grid; gap: 1rem; justify-items: start; align-content: end; }
-  .exp__lead p { margin: 0; }
-  .exp__trio { display: grid; gap: 2.5rem; }
-  .dest { display: grid; gap: .35rem; align-content: start; }
-  .dest__cat { margin: .9rem 0 0; color: var(--verde-texto); }
-  .dest__nome { margin: 0; font: 400 var(--t-h3)/1.2 var(--f-titulo); color: var(--tinta); max-width: 22ch; }
-  .dest__lnk { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration-color: var(--verde); text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  /* ---------- experiência: sumário da carta + fotos escalonadas ---------- */
+  .exp { display: grid; gap: 3rem; align-items: start; }
+  .exp__txt { display: grid; gap: 1.1rem; justify-items: start; }
+  .exp__txt .lead { margin: 0; max-width: 34ch; }
+  .carta { width: 100%; margin: 1.25rem 0 .25rem; border-top: 1px solid var(--linha); }
+  .carta li { border-bottom: 1px solid var(--linha); }
+  .carta__l { display: flex; align-items: baseline; gap: .75rem; min-height: 3.5rem; padding: .7rem 0; text-decoration: none; color: var(--tinta); }
+  .carta__n { font: 400 clamp(1.5rem, 1.2rem + 1vw, 2rem)/1.15 var(--f-titulo); }
+  .carta__l::after { content: ''; order: 1; flex: 1; align-self: end; margin-bottom: .55em; border-bottom: 1px dotted var(--texto-2); min-width: 1rem; }
+  .carta__p { order: 2; font-size: .9rem; color: var(--texto-2); white-space: nowrap; }
+  @media (hover: hover) { .carta__l { transition: padding-left .35s var(--ease-out), color .3s var(--ease); } .carta__l:hover { padding-left: .6rem; color: var(--verde-texto); } }
+  .exp__extra { margin: 0; }
+  .exp__fotos { display: grid; gap: 1rem; align-items: start; }
+  .exp__fotos :global(.quadro) { aspect-ratio: 3 / 2 !important; }
   @media (min-width: 62rem) {
-    .exp__topo { grid-template-columns: 1.1fr .9fr; gap: 6rem; align-items: end; }
-    .exp__trio { grid-template-columns: 1fr 1.35fr 1fr; gap: 2.5rem; align-items: end; }
-    .dest--2 { align-self: start; }
+    .exp { grid-template-columns: 5fr 6fr; gap: 5.5rem; }
+    .exp__txt { position: sticky; top: calc(var(--hd-h) + 2rem); }
+    .exp__fotos { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .dest--1 { grid-column: 1; grid-row: 1 / span 2; }
+    .dest--1 :global(.quadro) { aspect-ratio: 4 / 5 !important; }
+    .dest--2 :global(.quadro), .dest--3 :global(.quadro) { aspect-ratio: 3 / 2 !important; }
+    .dest--2 { grid-column: 2; margin-top: 4rem; }
+    .dest--3 { grid-column: 2; }
   }
 
-  /* ---------- ambiente ---------- */
-  .amb__topo { display: grid; gap: .5rem; margin-bottom: clamp(2rem, 4vw, 3rem); justify-items: start; }
-  .amb__topo .lead { margin: .5rem 0 0; }
+  /* ---------- ambiente: o texto é uma célula do mosaico ---------- */
   .amb__grade { display: grid; gap: 1rem; }
+  .amb__txt { display: grid; gap: 1rem; justify-items: start; padding-block: 0 1.5rem; }
+  .amb__txt .lead { margin: 0; max-width: 32ch; }
   @media (min-width: 52rem) {
     .amb__grade { grid-template-columns: repeat(12, 1fr); gap: 1.25rem; align-items: start; }
-    .amb__grade :global(.amb__q--1) { grid-column: 1 / span 7; }
-    .amb__grade :global(.amb__q--2) { grid-column: 8 / span 5; }
-    .amb__grade :global(.amb__q--3) { grid-column: 1 / span 4; }
-    .amb__grade :global(.amb__q--4) { grid-column: 5 / span 8; }
+    .amb__txt { grid-column: 1 / span 5; grid-row: 1; align-self: end; padding: 0 2rem 1rem 0; }
+    .amb__grade :global(.amb__q--1) { grid-column: 6 / span 7; grid-row: 1; }
+    .amb__grade :global(.amb__q--2) { grid-column: 1 / span 4; grid-row: 2 / span 2; }
+    .amb__grade :global(.amb__q--3) { grid-column: 5 / span 3; grid-row: 2 / span 2; align-self: start; }
+    .amb__grade :global(.amb__q--4) { grid-column: 8 / span 5; grid-row: 2 / span 2; align-self: end; }
   }
 
   /* ---------- avaliações ---------- */
   .av { padding-block: clamp(4.5rem, 10vw, 9rem); }
-  .av__in { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
-  .mega { margin: 0; max-width: 20ch; font: 400 clamp(2.6rem, 1.1rem + 6vw, 6.25rem)/1.03 var(--f-titulo); color: var(--branco); text-wrap: balance; }
+  .av__in { display: grid; gap: clamp(2.5rem, 5vw, 4rem); justify-items: start; }
+  .av__placa { --placa-borda: clamp(1.25rem, 3vw, 2rem); width: fit-content; max-width: 100%; padding: clamp(.5rem, 2vw, 1.5rem); }
+  .mega { margin: 0; max-width: 18ch; font: 400 clamp(2.4rem, 1rem + 5.2vw, 5.5rem)/1.05 var(--f-titulo); color: var(--branco); text-wrap: balance; }
   .mega__nota { color: var(--verde-claro); }
-  .temas { display: grid; gap: 2rem; border-top: 1px solid rgb(255 255 255 / .25); padding-top: 1.75rem; position: relative; }
-  .temas::before { content: ''; position: absolute; left: 0; top: -2px; width: 4.5rem; height: 3px; background: linear-gradient(90deg, var(--verde) 0 33.3%, var(--branco) 33.3% 66.6%, var(--vermelho) 66.6% 100%); }
+  .temas { width: 100%; display: grid; gap: 2rem; border-top: 1px solid rgb(255 255 255 / .25); padding-top: 1.75rem; }
   .tema__t { margin: 0 0 .9rem; font-family: var(--f-texto); font-size: var(--t-mini); line-height: 1; color: var(--verde-claro); }
   .tema li { padding: .45rem 0; font: 400 1.3rem/1.3 var(--f-titulo); color: var(--branco); }
   .av__fonte { margin: 0; font-size: .875rem; max-width: 70ch; }
   @media (min-width: 52rem) { .temas { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
 
-  /* ---------- reservas ---------- */
+  /* ---------- reservas: a placa emoldura o formulário ---------- */
   .res { display: grid; gap: 2.5rem; align-items: start; }
   .res__txt { display: grid; gap: 1rem; justify-items: start; }
-  .res__txt .lead { margin: 0; max-width: 34ch; }
-  @media (min-width: 62rem) { .res { grid-template-columns: .8fr 1.2fr; gap: 6rem; } .res__txt { position: sticky; top: calc(var(--hd-h) + 2rem); } }
+  .res__txt .lead { margin: 0; max-width: 30ch; }
+  .res__form { --placa-borda: 1.25rem; }
+  @media (min-width: 62rem) { .res { grid-template-columns: .8fr 1.2fr; gap: 5rem; } .res__txt { position: sticky; top: calc(var(--hd-h) + 2rem); } .res__form { --placa-borda: 1.75rem; } }
 
   /* ---------- localização e contato ---------- */
   .loc { display: grid; gap: 3rem; align-items: start; }
-  .loc address { font-style: normal; display: grid; gap: 1.2rem; justify-items: start; margin-top: 1.5rem; }
+  .loc__desc { color: var(--texto-2); }
+  .loc address { font-style: normal; display: grid; gap: 1.2rem; justify-items: start; margin-top: 2rem; }
   .loc address .lead { margin: 0; }
-  .loc__tel { display: inline-block; min-height: 2.75rem; font: 400 clamp(2.1rem, 1.5rem + 2.6vw, 3.6rem)/1.1 var(--f-titulo); text-decoration: none; color: var(--tinta); }
+  .loc__tel { display: inline-block; min-height: 2.75rem; font-weight: 500; font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3rem); line-height: 1.1; text-decoration: none; color: var(--tinta); }
   @media (hover: hover) { .loc__tel { transition: color .3s var(--ease); } .loc__tel:hover { color: var(--verde-texto); } }
   .loc__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; }
   .loc__h { margin: 0 0 .8rem; color: var(--tinta); font-family: var(--f-texto); font-size: var(--t-mini); line-height: 1; }

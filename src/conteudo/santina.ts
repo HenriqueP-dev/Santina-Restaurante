@@ -123,33 +123,32 @@ export const seo: Seo = {
   descricaoCardapio: 'Cardápio do Santina Restaurante, em Barretos: entradas, massas, carnes e aves, peixes e frutos do mar, risotos e sobremesas. Projeto conceitual.',
 };
 
+const totalPratos = cardapio.reduce((n, c) => n + c.pratos.length, 0);
+
 export const textos: Textos = {
   aviso: 'Projeto conceitual de design. Este não é o site oficial do Santina Restaurante.',
   rodapeNota: 'Projeto conceitual de design e desenvolvimento, sem vínculo oficial com o Santina Restaurante. As informações vêm da documentação enviada para o projeto. Horários, preços, fotos e algumas informações ainda dependem de confirmação com o restaurante.',
   hero: {
-    titulo: 'Gastronomia contemporânea de inspiração italiana.',
-    lead: 'Massas, carnes, risotos e frutos do mar, com carta de vinhos, drinks e sobremesas, em um casarão histórico.',
+    titulo: 'Cozinha de inspiração italiana, num casarão do centro de Barretos.',
+    lead: 'Massas, carnes, risotos e frutos do mar, com carta de vinhos, drinks e sobremesas.',
     cardapio: 'Ver o cardápio',
     reservar: 'Reservar pelo WhatsApp',
     quadro: 'Foto ou vídeo de abertura: o casarão ou o salão, de preferência com luz de noite (horizontal, 16:9)',
     legendaVideo: 'Vídeo ilustrativo, não mostra o Santina',
   },
   historia: {
-    rotulo: 'Nossa história',
-    titulo: 'Um casarão histórico no centro de Barretos.',
+    titulo: 'Uma casa com história, uma mesa sem pressa.',
     texto: [
       'O Santina funciona em um casarão histórico, conforme a apresentação do Grupo Quatro G. A proposta é uma gastronomia contemporânea com inspiração italiana.',
       'Casais, famílias e grupos encontram aqui um ambiente pensado para uma refeição com calma e para comemorar.',
     ],
-    pendente: 'A história do casarão e do restaurante entra aqui quando o Santina confirmar o texto.',
     etiqueta: 'Imagem ilustrativa, não é o Santina',
     fachada: { rotulo: 'Foto da fachada do casarão (vertical, 4:5)', foto: '/fotos/historia-fachada.webp', alt: 'Fachada de um casarão histórico com janelas em arco, vista de baixo.' },
     interior: { rotulo: 'Foto do interior do salão (horizontal, 3:2)', foto: '/fotos/historia-salao.webp', alt: 'Salão de restaurante à noite, com mesas postas e taças, visto pela vidraça.' },
   },
   experiencia: {
-    rotulo: 'Experiência gastronômica',
-    titulo: 'Massas, carnes, risotos e frutos do mar.',
-    lead: 'O cardápio reúne entradas, massas, carnes e aves, peixes e frutos do mar, risotos e sobremesas.',
+    titulo: `${totalPratos} pratos em ${cardapio.length} categorias.`,
+    lead: 'Das entradas às sobremesas, passando por massas, risotos, carnes e aves, peixes e frutos do mar.',
     destaques: [
       { categoriaId: 'massas', foto: '/fotos/prato-massas.webp', alt: 'Prato de fettuccine cremoso em um prato de cerâmica sobre mesa de madeira, visto de cima.', posicao: '50% 45%' },
       { categoriaId: 'carnes-e-aves', foto: '/fotos/prato-carnes.webp', alt: 'Medalhão de carne grelhado com folhas verdes em um prato escuro.' },
@@ -159,9 +158,8 @@ export const textos: Textos = {
     botao: 'Ver o cardápio completo',
   },
   ambiente: {
-    rotulo: 'O ambiente',
-    titulo: 'Para uma refeição com calma.',
-    lead: 'Clientes elogiam a decoração e o ambiente. As imagens desta seção são ilustrativas, de banco de imagens: as fotos do Santina entram no lugar.',
+    titulo: 'Ambiente fino, decoração elogiada.',
+    lead: 'Os comentários de quem já esteve falam do ambiente, da decoração e da apresentação dos pratos.',
     etiqueta: 'Imagem ilustrativa, não é o Santina',
     quadros: [
       { rotulo: 'Foto do salão (horizontal, 3:2)', foto: '/fotos/ambiente-salao-mesas-postas.webp', alt: 'Salão de restaurante com mesas postas e luz quente, sem clientes.' },
@@ -175,14 +173,13 @@ export const textos: Textos = {
     nota: 'Resumo de comentários públicos no Google, sem citações literais. Há também críticas pontuais, e notas e comentários mudam com o tempo. Veja todos no Google.',
   },
   reservas: {
-    rotulo: 'Reservas',
     titulo: 'Reserve pelo WhatsApp.',
-    lead: 'Escolha data, horário e número de pessoas: o pedido sai pronto na conversa com o restaurante.',
+    lead: 'Data, horário e número de pessoas: a mensagem sai pronta para o restaurante.',
     nota: 'O pedido só vale depois que o restaurante confirmar disponibilidade e horário.',
   },
   local: {
-    rotulo: 'Localização e contato',
     titulo: 'Rua Quatorze, 447',
+    descritor: `${negocio.bairro} · ${negocio.cidade} · ${negocio.uf}`,
     horarios: 'Horários',
     horariosNota: 'Horários e dias de funcionamento em confirmação com o restaurante. No Google consta que fecha às 14h30 e reabre às 18h.',
     servicos: 'Serviços',

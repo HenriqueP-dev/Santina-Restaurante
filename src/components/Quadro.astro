@@ -14,7 +14,6 @@ const { rotulo, foto, alt = '', proporcao = '3 / 2', class: cls, ilustrativa, po
     : <div class="quadro__in">
         <span class="quadro__k">Foto a enviar</span>
         <span class="quadro__t">{rotulo}</span>
-        <span class="filete" aria-hidden="true"></span>
       </div>}
 </figure>
 <style>
@@ -24,6 +23,5 @@ const { rotulo, foto, alt = '', proporcao = '3 / 2', class: cls, ilustrativa, po
   .quadro__in::before { content: ''; position: absolute; inset: .7rem; border: 1px solid color-mix(in srgb, var(--fg) 38%, transparent); border-radius: 1px; pointer-events: none; }
   .quadro__k { font-size: .75rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--fg-2); }
   .quadro__t { max-width: 26ch; font: 400 clamp(1.05rem, .95rem + .5vw, 1.35rem)/1.3 var(--f-titulo); color: var(--fg); text-wrap: balance; }
-  .quadro .filete { width: 3rem; }
   .quadro__etq { position: absolute; left: .75rem; bottom: .75rem; padding: .4rem .7rem; background: rgb(0 0 0 / .72); color: var(--branco); font-size: .75rem; font-weight: 600; letter-spacing: .02em; line-height: 1.2; border-radius: var(--raio); }
 </style>

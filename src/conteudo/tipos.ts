@@ -31,11 +31,11 @@ export interface Textos {
   aviso: string;                // faixa do topo; '' = sem faixa
   rodapeNota: string;
   hero: { titulo: string; lead: string; cardapio: string; reservar: string; quadro: string; legendaVideo: string };
-  historia: { rotulo: string; titulo: string; texto: string[]; pendente: string; etiqueta: string; fachada: { rotulo: string; foto?: string; alt?: string }; interior: { rotulo: string; foto?: string; alt?: string } };
-  experiencia: { rotulo: string; titulo: string; lead: string; destaques: { categoriaId: string; foto?: string; alt?: string; posicao?: string }[]; extras: string; botao: string };
-  ambiente: { rotulo: string; titulo: string; lead: string; etiqueta: string; quadros: { rotulo: string; foto?: string; alt?: string }[] };
+  historia: { titulo: string; texto: string[]; etiqueta: string; fachada: { rotulo: string; foto?: string; alt?: string }; interior: { rotulo: string; foto?: string; alt?: string } };
+  experiencia: { titulo: string; lead: string; destaques: { categoriaId: string; foto?: string; alt?: string; posicao?: string }[]; extras: string; botao: string };
+  ambiente: { titulo: string; lead: string; etiqueta: string; quadros: { rotulo: string; foto?: string; alt?: string }[] };
   avaliacoes: { tituloLeitor: string; nota: string };
-  reservas: { rotulo: string; titulo: string; lead: string; nota: string };
-  local: { rotulo: string; titulo: string; horarios: string; horariosNota: string; servicos: string; mapa: string };
+  reservas: { titulo: string; lead: string; nota: string };
+  local: { titulo: string; descritor: string; horarios: string; horariosNota: string; servicos: string; mapa: string };
   cardapio: { titulo: string; lead: string; nota: string; quadro: string; etiqueta: string };
 }

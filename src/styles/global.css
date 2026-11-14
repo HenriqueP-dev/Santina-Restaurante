@@ -49,6 +49,7 @@ h1 { font-size: var(--t-display); line-height: 1.02; }
 h2 { font-size: var(--t-h2); }
 h3 { font-size: var(--t-h3); line-height: 1.2; }
 .num { font-variant-numeric: tabular-nums lining-nums; }
+.num-sans { font-family: var(--f-texto); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.01em; }
 
 :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: var(--raio); }
 .hd :focus-visible, .sec--escura :focus-visible { outline-color: var(--branco); }
@@ -70,10 +71,23 @@ h3 { font-size: var(--t-h3); line-height: 1.2; }
 
 /* rótulos institucionais: caixa alta e letras espaçadas, como o RESTAURANTE da logo */
 .tracado { font-size: var(--t-mini); font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
-.rotulo { margin: 0 0 1.1rem; font-size: var(--t-mini); font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--acento-texto); }
 
-/* filete tricolor: o detalhe de assinatura, tirado da faixa da logo (verde, branco, vermelho) */
+/* filete tricolor: a faixa que, na logo, separa o nome (SANTINA) do descritivo (RESTAURANTE).
+   Só aparece nessa função: entre um título e o seu descritivo em caixa alta. Nunca como enfeite solto. */
 .filete { display: block; width: 4.5rem; height: 3px; border: 0; margin: 0; background: linear-gradient(90deg, var(--verde) 0 33.3%, var(--filete-meio) 33.3% 66.6%, var(--vermelho) 66.6% 100%); }
+.lockup { display: grid; gap: .9rem; justify-items: start; }
+.lockup > * { margin: 0; }
+
+/* placa: o contorno da logo (cantos de cima arredondados, cantos de baixo entalhados).
+   Emoldura só o que merece peso: a ação (reservar) e a prova (a nota). Traço claro em fundo escuro, escuro em fundo claro. */
+.placa {
+  --placa-borda: 1.25rem;
+  border: var(--placa-borda) solid transparent;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60' fill='none'%3E%3Cpath d='M13 1H47A12 12 0 0 1 59 13V50A9 9 0 0 0 50 59H10A9 9 0 0 0 1 50V13A12 12 0 0 1 13 1Z' stroke='%23080808' stroke-width='2'/%3E%3C/svg%3E") 20 / var(--placa-borda) stretch;
+}
+.sec--escura .placa {
+  border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60' fill='none'%3E%3Cpath d='M13 1H47A12 12 0 0 1 59 13V50A9 9 0 0 0 50 59H10A9 9 0 0 0 1 50V13A12 12 0 0 1 13 1Z' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E");
+}
 
 /* botões. Primário claro: preto. Verde: reservar. Linha: contorno que herda a cor da superfície. */
 .btn {

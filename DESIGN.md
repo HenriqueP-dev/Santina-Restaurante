@@ -31,7 +31,7 @@ Base preta e branca; verde e vermelho só como detalhe de identidade (nunca a ba
 | Base clara | `--branco` | `#FFFFFF` | seções claras, cartão do formulário |
 | Seção clara quente | `--creme` | `#F2EEE6` | experiência, reservas, categorias pares do cardápio |
 | Identidade 1 | `--verde` | `#278348` | botão Reservar, filete, sublinhados |
-| Identidade 2 | `--vermelho` | `#C83D43` | filete, marca de aviso na história |
+| Identidade 2 | `--vermelho` | `#C83D43` | filete |
 | Texto pequeno verde | `--verde-texto` | `#237540` | rótulos e ícones sobre claro |
 | Texto pequeno vermelho | `--vermelho-texto` | `#B4363C` | erros do formulário |
 | Verde sobre preto | `--verde-claro` | `#4FB06F` | rótulos e a nota 4,8 sobre fundo preto |
@@ -70,13 +70,18 @@ Escolha: foram renderizadas lado a lado com a logo Cormorant Garamond, EB Garamo
 
 Escala: display `clamp(2.4rem → 5rem)`, h2 `clamp(2.1rem → 3.75rem)`, h3 `clamp(1.4rem → 1.9rem)`, texto 1 rem / 1,7, rótulos 0,75 rem.
 
-## 4. Assinatura: o filete tricolor
+## 4. Vocabulário da logo: o filete e a placa
 
-Faixa de 3 px com verde, branco (ou areia, sobre claro) e vermelho em três partes iguais, tirada da faixa da logo. Aparece em: título do cardápio, história, quadros de foto, avaliações. **Uma peça pequena, nunca um fundo.**
+A logo tem duas peças que o site reutiliza, cada uma **com a mesma função que tem nela**:
+
+- **Filete tricolor** (3 px: verde, branco/areia, vermelho). Na logo, separa o nome (SANTINA) do descritivo (RESTAURANTE). No site, só aparece nessa função: entre um título e o descritivo em caixa alta (título do cardápio; endereço + "Centro · Barretos · SP"). Nunca como enfeite abaixo de um h2 qualquer nem dentro de quadros.
+- **Placa** (`.placa`): o contorno da logo, com cantos de cima arredondados e cantos de baixo entalhados, traço branco em fundo escuro e preto em fundo claro. Emoldura só o que merece peso: a **ação** (o formulário de reserva) e a **prova** (a nota 4,8 do Google). Mais de dois usos por página diluem o efeito.
+
+**Sem eyebrow.** Os rótulos em caixa alta acima de cada h2 foram removidos: viravam fórmula (rótulo, título, parágrafo) repetida em todas as seções. Caixa alta espaçada fica para o descritivo do filete, a navegação e os botões.
 
 ## 5. Superfícies e ritmo
 
-Alterna **preto → branco → creme → branco → preto → creme → branco → preto** (abertura, história, experiência, ambiente, avaliações, reservas, localização, rodapé). Seções de peso diferente: avaliações em escala enorme, cardápio denso e tipográfico. Sem cartões pequenos em grade: listas com linhas finas e quadros grandes.
+Alterna **preto → branco → creme → branco → preto → creme → branco → preto** (abertura, história, experiência, ambiente, avaliações, reservas, localização, rodapé). Seções de peso e composição diferentes: história ampla com foto fixa; experiência com sumário da carta (nomes com pontilhado e contagem) ao lado de três fotos escalonadas; ambiente em que o texto é uma célula do mosaico; avaliações em escala enorme dentro da placa; cardápio denso e tipográfico. Alturas de seção variam (ampla / padrão / compacta). Sem cartões pequenos em grade: listas com linhas finas e quadros grandes.
 
 ## 6. Componentes
 
@@ -85,7 +90,7 @@ Alterna **preto → branco → creme → branco → preto → creme → branco �
 | Cabeçalho (`Header.astro`) | preto, fixo, logo centralizada, menu de 4 links e botão **Reservar** verde; no celular, botão Menu e painel preto com foco preso |
 | Barra do celular (`BarraLigar.astro`) | Reservar (verde) e Ligar com o número, fixa embaixo |
 | Abertura (`index.astro`) | quadro de foto em tela cheia; título, lead e dois botões sobre véu preto no pé do quadro |
-| Quadro de foto (`Quadro.astro`) | espaço reservado com a descrição do que vai nele ("Foto a enviar"), moldura interna fina e filete tricolor. **Troca por foto real** com `foto="/fotos/arq.webp"` e `alt` |
+| Quadro de foto (`Quadro.astro`) | espaço reservado com a descrição do que vai nele ("Foto a enviar") e moldura interna fina. **Troca por foto real** com `foto="/fotos/arq.webp"` e `alt` |
 | Botões (`.btn`) | primário claro: preto; sobre preto: branco; **verde**: Reservar; `--linha`: contorno. Texto 12 px, maiúsculas espaçadas, 52 px de altura |
 | Link (`.link`) | sublinhado verde que cresce no hover |
 | Cardápio (`/cardapio/`) | menu fixo por categoria com marca da categoria visível; por categoria: título e quadro à esquerda (fixos no desktop), lista de pratos à direita com linhas finas; risotos só com nome |
@@ -114,3 +119,8 @@ GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros q
 - Logo em vetor (SVG) ou PNG de alta resolução; versão para fundo claro, se desejada.
 - Fotos de pratos e do ambiente (os quadros mostram onde entram).
 - Conferir com o cliente a paleta refinada (`--verde-texto`, `--vermelho-texto`, `--verde-claro`).
+
+## Notas da rodada de crítica (2026-11)
+
+- Sorts Mill Goudy tem algarismos antigos, que deixavam o telefone ilegível. Números de contato, contagens e a nota usam Manrope com algarismos tabulares (`.num-sans`).
+- O aviso "a história entra quando o Santina confirmar" saiu da página; a pendência continua em `PENDENCIAS.md`.

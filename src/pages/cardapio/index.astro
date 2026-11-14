@@ -26,8 +26,8 @@ const plural = (n: number) => `${n} ${n === 1 ? 'prato' : 'pratos'}`;
     <section class:list={['categoria', 'section', i % 2 === 1 && 'sec--creme']} id={c.id} aria-labelledby={`h-${c.id}`}>
       <div class="container cat__g">
         <div class="cat__lado" data-revelar>
-          <p class="rotulo">{plural(c.pratos.length)}</p>
           <h2 id={`h-${c.id}`}>{c.nome}</h2>
+          <p class="cat__n tracado num-sans">{plural(c.pratos.length)}</p>
           <Quadro rotulo={t.quadro} foto={c.foto?.src} alt={c.foto?.alt} posicao={c.foto?.posicao} ilustrativa={c.foto ? t.etiqueta : undefined} proporcao="3 / 2" />
         </div>
         <ul class="pratos">
@@ -66,7 +66,8 @@ const plural = (n: number) => `${n} ${n === 1 ? 'prato' : 'pratos'}`;
   @media (hover: hover) { .cats a:hover { color: var(--tinta); } .cats a:hover::after { transform: scaleX(1); } }
 
   .cat__g { display: grid; gap: 2rem; align-items: start; }
-  .cat__lado { display: grid; gap: 1.1rem; justify-items: start; }
+  .cat__lado { display: grid; gap: .7rem; justify-items: start; }
+  .cat__n { margin: 0; color: var(--acento-texto); }
   .cat__lado :global(.quadro) { width: 100%; margin-top: .5rem; }
   .pratos { display: grid; }
   .prato { padding: 1.5rem 0; border-bottom: 1px solid var(--linha); }
