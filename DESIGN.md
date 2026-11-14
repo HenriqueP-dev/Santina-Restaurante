@@ -93,6 +93,9 @@ Alterna **preto → branco → creme → branco → preto → creme → branco �
 | Avaliações | frase gigante com a nota em verde claro, temas em colunas, nota de rodapé honesta |
 | Rodapé | preto, logo maior, endereço, telefone, Instagram |
 
+## 6b. Mídia ilustrativa (regra)
+Imagem de banco **nunca** representa o que é só do Santina: fachada, interior do salão e pratos continuam em quadro até haver foto real. Quando há imagem de banco (vídeo da abertura, seção "O ambiente"), ela traz a etiqueta visível "Imagem ilustrativa, não é o Santina" e o crédito está em `CREDITOS.md`. Marcas, letreiros e pessoas identificáveis são motivo para descartar a imagem.
+
 ## 7. Movimento
 GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros que se abrem por máscara. Só `opacity` e `transform`. Desligado com "reduzir movimento" (o conteúdo já aparece).
 
@@ -105,7 +108,7 @@ GSAP: entrada do quadro e do texto da abertura, revelações ao rolar, quadros q
 | Header claro; logo do outro cliente | cabeçalho preto, logo do Santina sobre #000000 |
 | Texto e páginas de hotel (acomodações, pontos turísticos, check-in) | removidos; cardápio, reservas de mesa e localização |
 | Formulário de hospedagem (chegada, saída, hóspedes) | trocado por reserva de mesa |
-| Vídeo ilustrativo do modelo | removido: o cliente pediu quadros para as fotos |
+| Vídeo ilustrativo do modelo | removido; depois, a pedido do cliente, entrou um vídeo e 4 fotos de ambiente **de banco**, sempre com etiqueta "ilustrativa" |
 
 ## 9. Pendências de identidade
 - Logo em vetor (SVG) ou PNG de alta resolução; versão para fundo claro, se desejada.

@@ -3,13 +3,19 @@ import Base from '../layouts/Base.astro';
 import Quadro from '../components/Quadro.astro';
 import Icone from '../components/Icone.astro';
 import ReservaMesa from '../components/ReservaMesa.astro';
+import HeroVideo from '../components/HeroVideo.astro';
+import { temVideoHero } from '../lib/midia';
 import { negocio, servicos, avaliacao, textos } from '../conteudo/ativo';
 const t = textos;
 ---
 <Base>
   <!-- ABERTURA: quadro de foto ou vídeo em tela cheia; título e ações sobre ele -->
   <section class="hero sec--escura" aria-labelledby="h-hero">
-    <div class="hero__fundo" data-hero-quadro><Quadro rotulo={t.hero.quadro} proporcao="auto" /></div>
+    <div class="hero__fundo" data-hero-quadro>
+      {temVideoHero
+        ? <><HeroVideo /><p class="hero__legenda">{t.hero.legendaVideo}</p></>
+        : <Quadro rotulo={t.hero.quadro} proporcao="auto" />}
+    </div>
     <div class="hero__veu" aria-hidden="true"></div>
     <div class="container hero__conteudo">
       <h1 id="h-hero" data-hero-item>{t.hero.titulo}</h1>
@@ -71,7 +77,7 @@ const t = textos;
         <p class="lead">{t.ambiente.lead}</p>
       </div>
       <div class="amb__grade">
-        {t.ambiente.quadros.map((q, i) => <Quadro rotulo={q} proporcao={['3 / 2', '4 / 5', '1 / 1', '3 / 2'][i]} class={`amb__q amb__q--${i + 1}`} />)}
+        {t.ambiente.quadros.map((q, i) => <Quadro rotulo={q.rotulo} foto={q.foto} alt={q.alt} ilustrativa={q.foto ? t.ambiente.etiqueta : undefined} proporcao={['3 / 2', '4 / 5', '1 / 1', '3 / 2'][i]} class={`amb__q amb__q--${i + 1}`} />)}
       </div>
     </div>
   </section>
@@ -136,6 +142,7 @@ const t = textos;
   .hero__fundo :global(.quadro) { position: absolute; inset: 0; height: 100%; border-radius: 0; aspect-ratio: auto !important; }
   .hero__fundo :global(.quadro__in) { place-content: start end; justify-items: end; text-align: right; padding: 2rem 2.2rem; }
   .hero__fundo :global(.quadro__t) { max-width: 30ch; font-size: 1rem; }
+  .hero__legenda { position: absolute; z-index: 2; left: var(--gutter); top: 1rem; margin: 0; padding: .4rem .7rem; background: rgb(0 0 0 / .65); color: var(--branco); font-size: .75rem; font-weight: 600; letter-spacing: .02em; line-height: 1.2; border-radius: var(--raio); max-width: none; }
   .hero__veu { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / .86), rgb(0 0 0 / .45) 55%, rgb(0 0 0 / .1)); }
   .hero__conteudo { position: relative; z-index: 1; padding-block: 3rem clamp(3rem, 6vw, 4.75rem); display: grid; gap: 1.4rem; justify-items: start; }
   .hero h1 { max-width: 19ch; }

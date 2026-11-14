@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 // Os testes leem o conteúdo ativo (src/conteudo/ativo.ts): números e textos nunca ficam duplicados aqui.
+import { existsSync } from 'node:fs';
 import { negocio, cardapio, textos, avaliacao } from '../src/conteudo/ativo';
+
+const temVideo = existsSync('public/videos/hero.mp4') || existsSync('public/videos/hero.webm');
 
 const PAGINAS = ['/', '/cardapio/'];
 const totalPratos = cardapio.reduce((n, c) => n + c.pratos.length, 0);
@@ -93,9 +96,9 @@ test.describe('conteúdo fiel à documentação do restaurante', () => {
   });
   test('todo quadro de foto diz o que vai nele', async ({ page }) => {
     await page.goto('/');
-    const quadros = page.locator('.quadro');
+    const quadros = page.locator('.quadro:not(:has(img))');
     const n = await quadros.count();
-    expect(n).toBeGreaterThan(8);
+    expect(n).toBeGreaterThanOrEqual(5); // fachada, interior e 3 pratos: o que só o Santina pode mostrar
     for (let i = 0; i < n; i++) {
       const t = (await quadros.nth(i).innerText()).toLowerCase();
       expect(t).toContain('foto a enviar');
@@ -180,6 +183,48 @@ test.describe('navegação e celular', () => {
     await page.goto('/cardapio/');
     await page.locator('.cats a', { hasText: 'Sobremesas' }).click();
     await expect(page).toHaveURL(/#sobremesas$/);
+  });
+});
+
+test.describe('mídia ilustrativa de banco', () => {
+  test('as imagens do ambiente carregam, têm texto alternativo e dizem que são ilustrativas', async ({ page }) => {
+    await page.goto('/');
+    const imgs = page.locator('.amb__grade img');
+    const n = await imgs.count();
+    expect(n).toBe(textos.ambiente.quadros.filter((q) => q.foto).length);
+    for (let i = 0; i < n; i++) {
+      await imgs.nth(i).scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.nth(i).evaluate((e: HTMLImageElement) => e.complete && e.naturalWidth > 0)).toBe(true);
+      expect(((await imgs.nth(i).getAttribute('alt')) ?? '').length).toBeGreaterThan(20);
+    }
+    await expect(page.locator('.amb__grade .quadro__etq')).toHaveCount(n);
+    await expect(page.locator('.amb__grade .quadro__etq').first()).toContainText('ilustrativa');
+  });
+  test('o que só o Santina pode mostrar (fachada, interior, pratos) continua em quadro, sem foto de banco', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#historia img')).toHaveCount(0);
+    await expect(page.locator('.dest img')).toHaveCount(0);
+  });
+  test.describe('vídeo da abertura', () => {
+    test.skip(!temVideo, 'sem vídeo em public/videos');
+    test('é identificado como ilustrativo, toca mudo e o botão pausa', async ({ page }) => {
+      await page.goto('/');
+      await expect(page.locator('.hero__legenda')).toHaveText(textos.hero.legendaVideo);
+      const v = page.locator('[data-hero-video]');
+      await expect.poll(() => v.evaluate((el: HTMLVideoElement) => !el.paused && el.muted)).toBe(true);
+      await page.click('[data-hero-btn]');
+      await expect(page.locator('[data-hero-btn]')).toHaveText('Reproduzir vídeo');
+      expect(await v.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+    });
+    test('com "reduzir movimento" o vídeo não toca sozinho', async ({ browser }) => {
+      const ctx = await browser.newContext({ reducedMotion: 'reduce' });
+      const page = await ctx.newPage();
+      await page.goto('/');
+      await page.waitForTimeout(700);
+      expect(await page.locator('[data-hero-video]').evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+      await expect(page.locator('[data-hero-btn]')).toHaveText('Reproduzir vídeo');
+      await ctx.close();
+    });
   });
 });
 

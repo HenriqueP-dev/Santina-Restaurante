@@ -126,6 +126,7 @@ export const textos: Textos = {
     cardapio: 'Ver o cardápio',
     reservar: 'Reservar pelo WhatsApp',
     quadro: 'Foto ou vídeo de abertura: o casarão ou o salão, de preferência com luz de noite (horizontal, 16:9)',
+    legendaVideo: 'Vídeo ilustrativo, não mostra o Santina',
   },
   historia: {
     rotulo: 'Nossa história',
@@ -153,12 +154,13 @@ export const textos: Textos = {
   ambiente: {
     rotulo: 'O ambiente',
     titulo: 'Para uma refeição com calma.',
-    lead: 'Clientes elogiam a decoração e o ambiente.',
+    lead: 'Clientes elogiam a decoração e o ambiente. As imagens desta seção são ilustrativas, de banco de imagens: as fotos do Santina entram no lugar.',
+    etiqueta: 'Imagem ilustrativa, não é o Santina',
     quadros: [
-      'Foto do salão (horizontal, 3:2)',
-      'Foto de um detalhe do casarão (vertical, 4:5)',
-      'Foto de mesa posta ou de taças (quadrada, 1:1)',
-      'Foto do bar ou dos drinks (horizontal, 3:2)',
+      { rotulo: 'Foto do salão (horizontal, 3:2)', foto: '/fotos/ambiente-salao-mesas-postas.webp', alt: 'Salão de restaurante com mesas postas e luz quente, sem clientes.' },
+      { rotulo: 'Foto de um detalhe do casarão (vertical, 4:5)', foto: '/fotos/ambiente-mesa-a-luz-de-velas.webp', alt: 'Mesa comprida posta à noite, com velas acesas, flores laranja, pratos e taças.' },
+      { rotulo: 'Foto de mesa posta ou de taças (quadrada, 1:1)', foto: '/fotos/ambiente-tacas-e-mesa-branca.webp', alt: 'Mesa com toalha branca, taças de vinho e guardanapos dobrados.' },
+      { rotulo: 'Foto do bar ou dos drinks (horizontal, 3:2)', foto: '/fotos/ambiente-mesas-em-penumbra.webp', alt: 'Mesas postas com taças em um salão à meia-luz.' },
     ],
   },
   avaliacoes: {

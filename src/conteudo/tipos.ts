@@ -29,10 +29,10 @@ export interface Seo { indexar: boolean; descricao: string; descricaoCardapio: s
 export interface Textos {
   aviso: string;                // faixa do topo; '' = sem faixa
   rodapeNota: string;
-  hero: { titulo: string; lead: string; cardapio: string; reservar: string; quadro: string };
+  hero: { titulo: string; lead: string; cardapio: string; reservar: string; quadro: string; legendaVideo: string };
   historia: { rotulo: string; titulo: string; texto: string[]; pendente: string; quadroFachada: string; quadroInterior: string };
   experiencia: { rotulo: string; titulo: string; lead: string; destaques: { quadro: string; categoria: string; prato: string }[]; extras: string; botao: string };
-  ambiente: { rotulo: string; titulo: string; lead: string; quadros: string[] };
+  ambiente: { rotulo: string; titulo: string; lead: string; etiqueta: string; quadros: { rotulo: string; foto?: string; alt?: string }[] };
   avaliacoes: { tituloLeitor: string; nota: string };
   reservas: { rotulo: string; titulo: string; lead: string; nota: string };
   local: { rotulo: string; titulo: string; horarios: string; horariosNota: string; servicos: string; mapa: string };
